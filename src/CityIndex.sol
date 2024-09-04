@@ -1618,7 +1618,7 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
     string source =
         "const name = args[0];"
         "const apiResponse = await Functions.makeHttpRequest({"
-         "url: `https://kasheba-analytics-api-gl5bbi32cq-ts.a.run.app/api/city/code/${name}`"
+         "url: `https://GeoMarkt-analytics-api-gl5bbi32cq-ts.a.run.app/api/city/code/${name}`"
         "});"
         "if (apiResponse.error) {"
         "throw Error('Request failed');"

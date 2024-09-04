@@ -5,13 +5,13 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-// Interface for the KashebaToken
-interface IKashebaToken {
+// Interface for the GeoMarktToken
+interface IGeoMarktToken {
     function mint(address to, uint256 amount) external;
     function burnFrom(address account, uint256 amount) external;
 }
 
-contract KashebaTrading is Ownable {
+contract GeoMarktTrading is Ownable {
     struct Position {
         uint256 longAmount;
         uint256 shortAmount;
@@ -22,14 +22,14 @@ contract KashebaTrading is Ownable {
 
     mapping(address => mapping(address => Position)) public userPositions;
     mapping(address => uint256) public tokenPrices;
-    IKashebaToken public kashebaToken;
+    IGeoMarktToken public GeoMarktToken;
 
     event PositionOpened(address indexed user, address indexed token, uint256 amount, bool isLong, uint256 leverage, uint256 stopLoss, uint256 takeProfit);
     event PositionClosed(address indexed user, address indexed token, uint256 amount, bool isLong);
     event PriceUpdated(address indexed token, uint256 price);
 
-    constructor(address _kashebaTokenAddress) Ownable(msg.sender) {
-        kashebaToken = IKashebaToken(_kashebaTokenAddress);
+    constructor(address _GeoMarktTokenAddress) Ownable(msg.sender) {
+        GeoMarktToken = IGeoMarktToken(_GeoMarktTokenAddress);
     }
 
     function updatePrice(address token, uint256 price) external onlyOwner {
@@ -109,13 +109,13 @@ contract KashebaTrading is Ownable {
         return (position.longAmount, position.shortAmount, position.leverage, position.stopLoss, position.takeProfit);
     }
 
-    // Function to mint KashebaToken
-    function mintKashebaToken(address to, uint256 amount) external onlyOwner {
-        kashebaToken.mint(to, amount);
+    // Function to mint GeoMarktToken
+    function mintGeoMarktToken(address to, uint256 amount) external onlyOwner {
+        GeoMarktToken.mint(to, amount);
     }
 
-    // Function to burn KashebaToken
-    function burnKashebaToken(address from, uint256 amount) external onlyOwner {
-        kashebaToken.burnFrom(from, amount);
+    // Function to burn GeoMarktToken
+    function burnGeoMarktToken(address from, uint256 amount) external onlyOwner {
+        GeoMarktToken.burnFrom(from, amount);
     }
 }

@@ -96,7 +96,7 @@ export const NavBar = () => {
             width={30}
             className="h-5 w-5 m-auto"
           />
-          Kasheba
+          GeoMarkt
         </h1>
       </Link>
       <ul className="flex gap-5 max-lg:hidden">

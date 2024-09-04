@@ -724,15 +724,15 @@ abstract contract Ownable is Context {
     }
 }
 
-// File: KashebaToken.sol
+// File: GeoMarktToken.sol
 
 
 pragma solidity ^0.8.0;
 
 
 
-contract KASHEBA is ERC20, Ownable {
-    constructor(uint256 initialSupply) ERC20("KASHEBA", "KSB") Ownable(msg.sender) {
+contract GeoMarkt is ERC20, Ownable {
+    constructor(uint256 initialSupply) ERC20("GeoMarkt", "KSB") Ownable(msg.sender) {
         _mint(msg.sender, initialSupply);
     }
 
