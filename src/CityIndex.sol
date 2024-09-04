@@ -1922,9 +1922,10 @@ abstract contract ERC20Pausable is ERC20, Pausable {
 
 pragma solidity ^0.8.24;
 
-
-
-
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {AnalyticsAPICaller} from "./AnalyticsAPICaller.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
 
 // Interface for the GMT token
 interface IGMTToken {
@@ -1938,6 +1939,7 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
     string public city;
     IGMTToken public gmtToken;
     uint256 public currentPrice;
+    address public paymasterAddress; // Address of the deployed Paymaster
 
     constructor(
         address _initialOwner,
@@ -1946,12 +1948,14 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
         string memory _symbol,
         uint256 _squareFeet,
         address _apiCallerAddress,
-        address _gmtTokenAddress
-    ) ERC20(_name, _symbol) Ownable(_initialOwner) {
+        address _gmtTokenAddress,
+        address _paymasterAddress // Add paymaster address
+    ) ERC20(_name, _symbol) Ownable(msg.sender) {
         city = _name;
         code = _code;
         analyticsApiCaller = _apiCallerAddress;
         gmtToken = IGMTToken(_gmtTokenAddress);
+        paymasterAddress = _paymasterAddress; // Set the paymaster address
         currentPrice = 1 ether; // Initial price set to 1 GMT
         _mint(msg.sender, _squareFeet * 10 ** decimals());
     }
@@ -1974,7 +1978,8 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
         _unpause();
     }
 
-    function buy(address to, uint256 amount) public {
+    // Buying using GMT token
+    function buyWithGMT(address to, uint256 amount) public {
         uint256 tokenAmount = amount * 10 ** decimals();
         uint256 gmtAmount = tokenAmount * currentPrice / (10 ** decimals());
         require(tokenAmount <= balanceOf(owner()), "Not enough city tokens available");
@@ -1982,11 +1987,40 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
         _transfer(owner(), to, tokenAmount);
     }
 
-    function sell(address from, uint256 amount) public {
+    // Selling using GMT token
+    function sellWithGMT(address from, uint256 amount) public {
         uint256 tokenAmount = amount * 10 ** decimals();
         uint256 gmtAmount = tokenAmount * currentPrice / (10 ** decimals());
         require(tokenAmount <= balanceOf(from), "Not enough tokens");
         require(gmtToken.transfer(from, gmtAmount), "GMT transfer failed");
+        _transfer(from, owner(), tokenAmount);
+    }
+
+    // Buying using Paymaster
+    function buyWithPaymaster(address to, uint256 amount, bytes calldata paymasterParams) public {
+        uint256 tokenAmount = amount * 10 ** decimals();
+        require(tokenAmount <= balanceOf(owner()), "Not enough city tokens available");
+        
+        // Interact with the Paymaster to pay for the transaction
+        // Assuming the Paymaster has a function to handle this
+        (bool success, ) = paymasterAddress.call(
+            abi.encodeWithSignature("validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)", /* parameters */)
+        );
+        require(success, "Paymaster transaction failed");
+
+        _transfer(owner(), to, tokenAmount);
+    }
+
+    // Selling using Paymaster
+    function sellWithPaymaster(address from, uint256 amount, bytes calldata paymasterParams) public {
+        uint256 tokenAmount = amount * 10 ** decimals();
+        require(tokenAmount <= balanceOf(from), "Not enough tokens");
+
+        (bool success, ) = paymasterAddress.call(
+            abi.encodeWithSignature("validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)", /* parameters */)
+        );
+        require(success, "Paymaster transaction failed");
+
         _transfer(from, owner(), tokenAmount);
     }
 
@@ -1996,59 +2030,5 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
 
     function _update(address from, address to, uint256 value) internal override(ERC20, ERC20Pausable) {
         super._update(from, to, value);
-    }
-}
-
-contract CityIndexFactory is Ownable {
-    address[] public cityIndexes;
-    address public immutable analyticsApiCaller;
-    address public immutable gmtTokenAddress;
-
-    event CityIndexCreated(address indexed cityIndexAddress, string name, string code);
-
-    constructor() Ownable(msg.sender) {
-        analyticsApiCaller = 0xB0d880Ba74a11EEE3ec807F86DC7E2C00E5aa6Ac;
-        gmtTokenAddress = 0x87A7346C49CF630C5D63Bc02d056eA4988c67f01;
-    }
-
-    function createCityIndex(
-        string memory _name,
-        string memory _code,
-        string memory _symbol,
-        uint256 _squareFeet
-    ) public onlyOwner {
-        CityIndex newCityIndex = new CityIndex(
-            msg.sender,
-            _name,
-            _code,
-            _symbol,
-            _squareFeet,
-            analyticsApiCaller,
-            gmtTokenAddress
-        );
-        cityIndexes.push(address(newCityIndex));
-        emit CityIndexCreated(address(newCityIndex), _name, _code);
-    }
-
-    function getCityIndexesCount() public view returns (uint256) {
-        return cityIndexes.length;
-    }
-
-    function getCityIndexAt(uint256 index) public view returns (address) {
-        require(index < cityIndexes.length, "Index out of bounds");
-        return cityIndexes[index];
-    }
-
-    function getAllCityPrices() public view returns (string[] memory, uint256[] memory) {
-        string[] memory cities = new string[](cityIndexes.length);
-        uint256[] memory prices = new uint256[](cityIndexes.length);
-
-        for (uint256 i = 0; i < cityIndexes.length; i++) {
-            CityIndex cityIndex = CityIndex(cityIndexes[i]);
-            cities[i] = cityIndex.city();
-            prices[i] = cityIndex.currentPrice();
-        }
-
-        return (cities, prices);
     }
 }
