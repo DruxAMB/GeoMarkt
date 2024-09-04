@@ -1,5 +1,5 @@
 
-ALl Contracts were deployed on Base
+ALL Contracts were deployed on Base Sepoila
 | Contract           | Address         |
 |--------------------|-----------------|
 | GeoMarktTrading    | 0xbe0311e8B5ae8E0370BF03d52C035A4F054a6956 |
