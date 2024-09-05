@@ -114,8 +114,8 @@ export const NavBar = () => {
         ))}
       </ul>
       <div className="items-center max-lg:hidden">
-      
-        <ConnectButton /> {/* Add ConnectButton here for larger screens */}
+      <button>Connect Button</button>
+        {/* <ConnectButton /> Add ConnectButton here for larger screens */}
       </div>
     </div>
   );
