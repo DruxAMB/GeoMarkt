@@ -42,8 +42,8 @@ export const NavBar = () => {
       url: "/",
     },
     {
-      name: "Pricing",
-      url: "/",
+      name: "Create Index",
+      url: "/create-index",
     },
     {
       name: "Resources",
