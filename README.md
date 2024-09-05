@@ -70,6 +70,8 @@ A decentralized platform that allows users to trade city-based tokens. These tok
 - Custom USDT deployed for testing purposes
 - Facilitates testing of stablecoin interactions
 
+
+
 ## Architecture Flow
 1. Chainlink oracles provide city data and price feeds
 2. CityIndexFactory deploys CityIndex contracts based on data
@@ -77,6 +79,8 @@ A decentralized platform that allows users to trade city-based tokens. These tok
 4. Users trade city tokens via CityIndex contracts
 5. GeoMarktTrading enables advanced trading features
 6. Chainlink ensures price stability and data accuracy throughout
+7. Paymaster integrated to help to support for payment in other tokens
+
 <p align="center" width="100%">
   <img src="https://imgur.com/IV9RuMI.png" alt="site"/>
 </p>
@@ -84,6 +88,7 @@ A decentralized platform that allows users to trade city-based tokens. These tok
 
 #
 > ## Technologies
+
 | <b><u>Stack</u></b> | <b><u>Usage</u></b> |
 | :------------------ | :------------------ |
 | **`Solidity`**      | Smart contract      |
@@ -102,7 +107,6 @@ ALL Contracts were deployed on Base Sepoila
 | CityIndexFactory   | 0x9b4C322fD7282e2556915B46ED8C14825666Fbca |
 |EPE CITY TOKEN(EPE) | 0xc77c2b7A3bAe71eb3cFC1700F675b34146A9A11C | N0te that EPE has 10 billion tokens because EPE is 10 billion  sq feets
 |PayMaster           | 0xBd35aE6683Ce69239F79bc857b1C3D555f3C21Db |  Note: We support GMT token for paymaster now.
-
 
 
 
