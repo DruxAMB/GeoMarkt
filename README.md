@@ -120,6 +120,10 @@ ALL Contracts were deployed on Base Sepoila
 ## Demo Video (Clients POV)
 
 
+https://github.com/user-attachments/assets/b04349c7-6df4-49f2-adc7-08feafe2b20b
+
+
+
 - [Frontend Deployment](https://geo-markt-snowy.vercel.app/)
 - [Figma design]()
 - [Figma slides](https://www.figma.com/slides/AqcBIpafeN8xBWDjqtHEYB/any-(Copy)?node-id=23-40&node-type=SLIDE&t=Ih3FUIxbnoV10iOm-0)
