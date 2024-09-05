@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "../../public/images/logo.png";
 import { MenuIcon, X } from "lucide-react";
-import ConnectButton from './ConnectButton'; // Import the ConnectButton component
 
 export const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +68,8 @@ export const NavBar = () => {
           </li>
         ))}
         <li className="block xs:hidden hover:bg-gray-600/50 px-2 rounded-lg hover:text-white">
-          <ConnectButton /> 
+          {/* <ConnectButton />  */}
+          <button>Connect Button</button>
         </li>
       </ul>
     );
@@ -114,7 +114,7 @@ export const NavBar = () => {
         ))}
       </ul>
       <div className="items-center max-lg:hidden">
-      <button>Connect Button</button>
+        <button>Connect Button</button>
         {/* <ConnectButton /> Add ConnectButton here for larger screens */}
       </div>
     </div>
