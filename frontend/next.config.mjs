@@ -1,4 +1,13 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import bundleAnalyzer from '@next/bundle-analyzer';
 
-export default nextConfig;
+/** @type {import('next').NextConfig} */
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+const nextConfig = {
+  compress: true,  // Enables gzip and Brotli compression
+  reactStrictMode: true,  // Optional: Enforces React strict mode
+};
+
+export default withBundleAnalyzer(nextConfig);
