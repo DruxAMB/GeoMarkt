@@ -1,18 +1,34 @@
+# GeoMarkt
 
-ALL Contracts were deployed on Base Sepoila
-| Contract           | Address         |
-|--------------------|-----------------|
-| GeoMarktTrading    | 0xbe0311e8B5ae8E0370BF03d52C035A4F054a6956 |
-| GeoMarktToken (GMT)| 0x87A7346C49CF630C5D63Bc02d056eA4988c67f01 |
-| CityIndex (EPE)    | 0x3Ef64494ffA42114FE9Eda91817aEBE5f54F1a3b |                          
-| CityIndexFactory   | 0x9b4C322fD7282e2556915B46ED8C14825666Fbca |
-|EPE CITY TOKEN(EPE) | 0xc77c2b7A3bAe71eb3cFC1700F675b34146A9A11C | N0te that EPE has 10 billion tokens because EPE is 10 billion  sq feets
-|PayMaster           | 0xBd35aE6683Ce69239F79bc857b1C3D555f3C21Db |  Note: We support GMT token for paymaster now.
+## Welcome to the GeoMarkt platform
 
+<p align="center" width="100%">
+  <img src="https://imgur.com/UDE36f8.png" alt="site"/>
+</p>
+
+> ## Table of contents
+- [Overview](#overview)
+- [Core Features Implemented](#core-features-implemented)
+- [Technologies](#technologies)
+- [GeoMarkt-MVP-Contract-Addresses](#geomarkt-mvp-contract-addresses)
+- [Live Link](#live-link)
+- [Contributors](#contributors)
+- [Contributing to the project](#contributing-to-the-project)
+
+
+#
+> ## Overview
+
+A decentralized platform that allows users to trade city-based tokens. These tokens are tied to the value and growth potential of real-world cities, creating a new way to invest in urban development.
+
+<p align="center" width="100%">
+  <img src="https://imgur.com/PP9XuRc.png" alt="site"/>
+</p>
+
+#
+> ## core-features-implemented
 # GeoMarkt Project Architecture
 
-## Overview
-GeoMarkt is a decentralized platform for trading city-based tokens and leveraging geospatial data in DeFi. The project utilizes Chainlink oracles, implements a stablecoin (GMT), and provides various trading functionalities.
 
 ## Key Components
 
@@ -54,6 +70,8 @@ GeoMarkt is a decentralized platform for trading city-based tokens and leveragin
 - Custom USDT deployed for testing purposes
 - Facilitates testing of stablecoin interactions
 
+
+
 ## Architecture Flow
 1. Chainlink oracles provide city data and price feeds
 2. CityIndexFactory deploys CityIndex contracts based on data
@@ -61,5 +79,81 @@ GeoMarkt is a decentralized platform for trading city-based tokens and leveragin
 4. Users trade city tokens via CityIndex contracts
 5. GeoMarktTrading enables advanced trading features
 6. Chainlink ensures price stability and data accuracy throughout
+7. Paymaster integrated to help to support for payment in other tokens
 
-This architecture creates a robust ecosystem for geospatial-based DeFi trading, leveraging the stability of GMT and the reliability of Chainlink oracles.
+<p align="center" width="100%">
+  <img src="https://imgur.com/IV9RuMI.png" alt="site"/>
+</p>
+
+
+#
+> ## Technologies
+
+| <b><u>Stack</u></b> | <b><u>Usage</u></b> |
+| :------------------ | :------------------ |
+| **`Solidity`**      | Smart contract      |
+| **`Next JS`**      | Frontend            |
+
+
+#
+> ## geomarkt-mvp-contract-addresses
+
+ALL Contracts were deployed on Base Sepoila
+| Contract           | Address         |
+|--------------------|-----------------|
+| GeoMarktTrading    | 0xbe0311e8B5ae8E0370BF03d52C035A4F054a6956 |
+| GeoMarktToken (GMT)| 0x87A7346C49CF630C5D63Bc02d056eA4988c67f01 |
+| CityIndex (EPE)    | 0x3Ef64494ffA42114FE9Eda91817aEBE5f54F1a3b |                          
+| CityIndexFactory   | 0x9b4C322fD7282e2556915B46ED8C14825666Fbca |
+|EPE CITY TOKEN(EPE) | 0xc77c2b7A3bAe71eb3cFC1700F675b34146A9A11C | N0te that EPE has 10 billion tokens because EPE is 10 billion  sq feets
+|PayMaster           | 0xBd35aE6683Ce69239F79bc857b1C3D555f3C21Db |  Note: We support GMT token for paymaster now.
+
+
+
+
+
+
+# 
+
+> ## live-link
+
+## Demo Video (Clients POV)
+
+
+https://github.com/user-attachments/assets/b04349c7-6df4-49f2-adc7-08feafe2b20b
+
+
+
+- [Frontend Deployment](https://geo-markt-snowy.vercel.app/)
+- [Figma design]()
+- [Figma slides](https://www.figma.com/slides/AqcBIpafeN8xBWDjqtHEYB/any-(Copy)?node-id=23-40&node-type=SLIDE&t=Ih3FUIxbnoV10iOm-0)
+
+
+> ## Contributors
+
+This Project was created by these awesome dedicated members
+
+<p align="center" width="100%">
+  <img src="https://imgur.com/9D7uUj2" alt="team"/>
+</p>
+
+#
+> ## Contributing to the project
+
+If you find something worth contributing, please fork the repo, make a pull request and add valid and well-reasoned explanations about your changes or comments.
+
+Before adding a pull request, please note:
+
+- This is an open source project.
+- Your contributions should be inviting and clear.
+- Any additions should be relevant.
+- New features should be easy to contribute to.
+
+All **`suggestions`** are welcome!
+#
+> ##### README Created by `Enebeli Emmanuel` for GeoMarkt
+
+
+
+
+
