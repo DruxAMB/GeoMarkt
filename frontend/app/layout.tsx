@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import "@coinbase/onchainkit/styles.css";
 import "./globals.css";
 import { NavBar } from "./components/NavBar";
+import OnchainProviders from "@/app/providers/OnchainProviders";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "GeoMarkt Platform",
-  description: "GeoMarkt - A decentralized platform for trading city-based tokens, tied to the value and growth potential of real-world cities.",
+  description:
+    "GeoMarkt - A decentralized platform for trading city-based tokens, tied to the value and growth potential of real-world cities.",
 };
 
 export default function RootLayout({
@@ -18,8 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NavBar />
-        {children}
+        <OnchainProviders>
+          <NavBar />
+          {children}
+        </OnchainProviders>
       </body>
     </html>
   );

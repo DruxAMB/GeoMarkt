@@ -1,0 +1,11 @@
+# .graphclientrc.yml
+sources:
+  - name: base-sepolia
+    handler:
+      graphql:
+        endpoint: https://gateway-arbitrum.network.thegraph.com/api/APIKEY/subgraphs/id/HUZDsRpEVP2AvzDCyzDHtdc64dyDxx8FQjzsmqSg4H3B
+documents:
+  - "./queries/*.graphql"
+plugins:
+  - pollingLive:
+      defaultInterval: 10000
