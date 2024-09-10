@@ -1,0 +1,26 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: CityIndexFactory
+    network: base-sepolia
+    source:
+      address: "0x3b1B708D2a9B4f214F71Ad555Dd4e0d601327f18"
+      abi: CityIndexFactory
+      startBlock: 15118162
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - CityIndexCreated
+      abis:
+        - name: CityIndexFactory
+          file: ./abis/CityIndexFactory.json
+      eventHandlers:
+        - event: CityIndexCreated(indexed address,indexed address,string,string,string,uint256)
+          handler: handleCityIndexCreated
+      file: ./src/city-index-factory.ts

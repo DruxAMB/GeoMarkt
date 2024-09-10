@@ -1,0 +1,8 @@
+{
+  "base-sepolia": {
+    "CityIndexFactory": {
+      "address": "0x3b1B708D2a9B4f214F71Ad555Dd4e0d601327f18",
+      "startBlock": 15118162
+    }
+  }
+}

@@ -1,0 +1,12 @@
+type CityIndexCreated @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  cityIndexAddress: Bytes! # address
+  name: String! # string
+  code: String! # string
+  symbol: String! # string
+  squareFeet: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
