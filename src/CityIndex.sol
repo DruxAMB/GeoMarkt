@@ -1920,12 +1920,6 @@ abstract contract ERC20Pausable is ERC20, Pausable {
 // File: GeoMarkt/CityIndex.sol
 
 
-pragma solidity ^0.8.24;
-
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import {AnalyticsAPICaller} from "./AnalyticsAPICaller.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
 
 // Interface for the GMT token
 interface IGMTToken {
@@ -1949,8 +1943,10 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
         uint256 _squareFeet,
         address _apiCallerAddress,
         address _gmtTokenAddress,
-        address _paymasterAddress // Add paymaster address
-    ) ERC20(_name, _symbol) Ownable(msg.sender) {
+        address _paymasterAddress, // Add paymaster address
+        uint256 fee
+    ) ERC20(_name, _symbol) Ownable(msg.sender) payable  {
+        require(msg.value>fee);
         city = _name;
         code = _code;
         analyticsApiCaller = _apiCallerAddress;
@@ -2004,7 +2000,7 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
         // Interact with the Paymaster to pay for the transaction
         // Assuming the Paymaster has a function to handle this
         (bool success, ) = paymasterAddress.call(
-            abi.encodeWithSignature("validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)", /* parameters */)
+            abi.encodeWithSignature("validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)"/* parameters */)
         );
         require(success, "Paymaster transaction failed");
 
@@ -2017,7 +2013,7 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
         require(tokenAmount <= balanceOf(from), "Not enough tokens");
 
         (bool success, ) = paymasterAddress.call(
-            abi.encodeWithSignature("validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)", /* parameters */)
+            abi.encodeWithSignature("validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)" /* parameters */)
         );
         require(success, "Paymaster transaction failed");
 
