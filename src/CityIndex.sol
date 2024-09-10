@@ -1,6 +1,4 @@
-
 // File: @openzeppelin/contracts/token/ERC20/IERC20.sol
-
 
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/IERC20.sol)
 
@@ -22,7 +20,11 @@ interface IERC20 {
      * @dev Emitted when the allowance of a `spender` for an `owner` is set by
      * a call to {approve}. `value` is the new allowance.
      */
-    event Approval(address indexed owner, address indexed spender, uint256 value);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
 
     /**
      * @dev Returns the value of tokens in existence.
@@ -50,7 +52,10 @@ interface IERC20 {
      *
      * This value changes when {approve} or {transferFrom} are called.
      */
-    function allowance(address owner, address spender) external view returns (uint256);
+    function allowance(
+        address owner,
+        address spender
+    ) external view returns (uint256);
 
     /**
      * @dev Sets a `value` amount of tokens as the allowance of `spender` over the
@@ -78,16 +83,18 @@ interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    function transferFrom(address from, address to, uint256 value) external returns (bool);
+    function transferFrom(
+        address from,
+        address to,
+        uint256 value
+    ) external returns (bool);
 }
 
 // File: @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol
 
-
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/extensions/IERC20Metadata.sol)
 
 pragma solidity ^0.8.20;
-
 
 /**
  * @dev Interface for the optional metadata functions from the ERC20 standard.
@@ -110,7 +117,6 @@ interface IERC20Metadata is IERC20 {
 }
 
 // File: @openzeppelin/contracts/utils/Context.sol
-
 
 // OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)
 
@@ -142,7 +148,6 @@ abstract contract Context {
 
 // File: @openzeppelin/contracts/interfaces/draft-IERC6093.sol
 
-
 // OpenZeppelin Contracts (last updated v5.0.0) (interfaces/draft-IERC6093.sol)
 pragma solidity ^0.8.20;
 
@@ -157,7 +162,11 @@ interface IERC20Errors {
      * @param balance Current balance for the interacting account.
      * @param needed Minimum amount required to perform a transfer.
      */
-    error ERC20InsufficientBalance(address sender, uint256 balance, uint256 needed);
+    error ERC20InsufficientBalance(
+        address sender,
+        uint256 balance,
+        uint256 needed
+    );
 
     /**
      * @dev Indicates a failure with the token `sender`. Used in transfers.
@@ -177,7 +186,11 @@ interface IERC20Errors {
      * @param allowance Amount of tokens a `spender` is allowed to operate with.
      * @param needed Minimum amount required to perform a transfer.
      */
-    error ERC20InsufficientAllowance(address spender, uint256 allowance, uint256 needed);
+    error ERC20InsufficientAllowance(
+        address spender,
+        uint256 allowance,
+        uint256 needed
+    );
 
     /**
      * @dev Indicates a failure with the `approver` of a token to be approved. Used in approvals.
@@ -262,7 +275,12 @@ interface IERC1155Errors {
      * @param needed Minimum amount required to perform a transfer.
      * @param tokenId Identifier number of a token.
      */
-    error ERC1155InsufficientBalance(address sender, uint256 balance, uint256 needed, uint256 tokenId);
+    error ERC1155InsufficientBalance(
+        address sender,
+        uint256 balance,
+        uint256 needed,
+        uint256 tokenId
+    );
 
     /**
      * @dev Indicates a failure with the token `sender`. Used in transfers.
@@ -306,14 +324,9 @@ interface IERC1155Errors {
 
 // File: @openzeppelin/contracts/token/ERC20/ERC20.sol
 
-
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/ERC20.sol)
 
 pragma solidity ^0.8.20;
-
-
-
-
 
 /**
  * @dev Implementation of the {IERC20} interface.
@@ -341,7 +354,8 @@ pragma solidity ^0.8.20;
 abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
     mapping(address account => uint256) private _balances;
 
-    mapping(address account => mapping(address spender => uint256)) private _allowances;
+    mapping(address account => mapping(address spender => uint256))
+        private _allowances;
 
     uint256 private _totalSupply;
 
@@ -422,7 +436,10 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
     /**
      * @dev See {IERC20-allowance}.
      */
-    function allowance(address owner, address spender) public view virtual returns (uint256) {
+    function allowance(
+        address owner,
+        address spender
+    ) public view virtual returns (uint256) {
         return _allowances[owner][spender];
     }
 
@@ -436,7 +453,10 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
      *
      * - `spender` cannot be the zero address.
      */
-    function approve(address spender, uint256 value) public virtual returns (bool) {
+    function approve(
+        address spender,
+        uint256 value
+    ) public virtual returns (bool) {
         address owner = _msgSender();
         _approve(owner, spender, value);
         return true;
@@ -458,7 +478,11 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
      * - the caller must have allowance for ``from``'s tokens of at least
      * `value`.
      */
-    function transferFrom(address from, address to, uint256 value) public virtual returns (bool) {
+    function transferFrom(
+        address from,
+        address to,
+        uint256 value
+    ) public virtual returns (bool) {
         address spender = _msgSender();
         _spendAllowance(from, spender, value);
         _transfer(from, to, value);
@@ -588,7 +612,12 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
      *
      * Requirements are the same as {_approve}.
      */
-    function _approve(address owner, address spender, uint256 value, bool emitEvent) internal virtual {
+    function _approve(
+        address owner,
+        address spender,
+        uint256 value,
+        bool emitEvent
+    ) internal virtual {
         if (owner == address(0)) {
             revert ERC20InvalidApprover(address(0));
         }
@@ -609,11 +638,19 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
      *
      * Does not emit an {Approval} event.
      */
-    function _spendAllowance(address owner, address spender, uint256 value) internal virtual {
+    function _spendAllowance(
+        address owner,
+        address spender,
+        uint256 value
+    ) internal virtual {
         uint256 currentAllowance = allowance(owner, spender);
         if (currentAllowance != type(uint256).max) {
             if (currentAllowance < value) {
-                revert ERC20InsufficientAllowance(spender, currentAllowance, value);
+                revert ERC20InsufficientAllowance(
+                    spender,
+                    currentAllowance,
+                    value
+                );
             }
             unchecked {
                 _approve(owner, spender, currentAllowance - value, false);
@@ -624,209 +661,222 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
 
 // File: https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsResponse.sol
 
-
 pragma solidity ^0.8.19;
 
 /// @title Library of types that are used for fulfillment of a Functions request
 library FunctionsResponse {
-  // Used to send request information from the Router to the Coordinator
-  struct RequestMeta {
-    bytes data; // ══════════════════╸ CBOR encoded Chainlink Functions request data, use FunctionsRequest library to encode a request
-    bytes32 flags; // ═══════════════╸ Per-subscription flags
-    address requestingContract; // ══╗ The client contract that is sending the request
-    uint96 availableBalance; // ═════╝ Common LINK balance of the subscription that is controlled by the Router to be used for all consumer requests.
-    uint72 adminFee; // ═════════════╗ Flat fee (in Juels of LINK) that will be paid to the Router Owner for operation of the network
-    uint64 subscriptionId; //        ║ Identifier of the billing subscription that will be charged for the request
-    uint64 initiatedRequests; //     ║ The number of requests that have been started
-    uint32 callbackGasLimit; //      ║ The amount of gas that the callback to the consuming contract will be given
-    uint16 dataVersion; // ══════════╝ The version of the structure of the CBOR encoded request data
-    uint64 completedRequests; // ════╗ The number of requests that have successfully completed or timed out
-    address subscriptionOwner; // ═══╝ The owner of the billing subscription
-  }
+    // Used to send request information from the Router to the Coordinator
+    struct RequestMeta {
+        bytes data; // ══════════════════╸ CBOR encoded Chainlink Functions request data, use FunctionsRequest library to encode a request
+        bytes32 flags; // ═══════════════╸ Per-subscription flags
+        address requestingContract; // ══╗ The client contract that is sending the request
+        uint96 availableBalance; // ═════╝ Common LINK balance of the subscription that is controlled by the Router to be used for all consumer requests.
+        uint72 adminFee; // ═════════════╗ Flat fee (in Juels of LINK) that will be paid to the Router Owner for operation of the network
+        uint64 subscriptionId; //        ║ Identifier of the billing subscription that will be charged for the request
+        uint64 initiatedRequests; //     ║ The number of requests that have been started
+        uint32 callbackGasLimit; //      ║ The amount of gas that the callback to the consuming contract will be given
+        uint16 dataVersion; // ══════════╝ The version of the structure of the CBOR encoded request data
+        uint64 completedRequests; // ════╗ The number of requests that have successfully completed or timed out
+        address subscriptionOwner; // ═══╝ The owner of the billing subscription
+    }
 
-  enum FulfillResult {
-    FULFILLED, // 0
-    USER_CALLBACK_ERROR, // 1
-    INVALID_REQUEST_ID, // 2
-    COST_EXCEEDS_COMMITMENT, // 3
-    INSUFFICIENT_GAS_PROVIDED, // 4
-    SUBSCRIPTION_BALANCE_INVARIANT_VIOLATION, // 5
-    INVALID_COMMITMENT // 6
-  }
+    enum FulfillResult {
+        FULFILLED, // 0
+        USER_CALLBACK_ERROR, // 1
+        INVALID_REQUEST_ID, // 2
+        COST_EXCEEDS_COMMITMENT, // 3
+        INSUFFICIENT_GAS_PROVIDED, // 4
+        SUBSCRIPTION_BALANCE_INVARIANT_VIOLATION, // 5
+        INVALID_COMMITMENT // 6
+    }
 
-  struct Commitment {
-    bytes32 requestId; // ═════════════════╸ A unique identifier for a Chainlink Functions request
-    address coordinator; // ═══════════════╗ The Coordinator contract that manages the DON that is servicing a request
-    uint96 estimatedTotalCostJuels; // ════╝ The maximum cost in Juels (1e18) of LINK that will be charged to fulfill a request
-    address client; // ════════════════════╗ The client contract that sent the request
-    uint64 subscriptionId; //              ║ Identifier of the billing subscription that will be charged for the request
-    uint32 callbackGasLimit; // ═══════════╝ The amount of gas that the callback to the consuming contract will be given
-    uint72 adminFee; // ═══════════════════╗ Flat fee (in Juels of LINK) that will be paid to the Router Owner for operation of the network
-    uint72 donFee; //                      ║ Fee (in Juels of LINK) that will be split between Node Operators for servicing a request
-    uint40 gasOverheadBeforeCallback; //   ║ Represents the average gas execution cost before the fulfillment callback.
-    uint40 gasOverheadAfterCallback; //    ║ Represents the average gas execution cost after the fulfillment callback.
-    uint32 timeoutTimestamp; // ═══════════╝ The timestamp at which a request will be eligible to be timed out
-  }
+    struct Commitment {
+        bytes32 requestId; // ═════════════════╸ A unique identifier for a Chainlink Functions request
+        address coordinator; // ═══════════════╗ The Coordinator contract that manages the DON that is servicing a request
+        uint96 estimatedTotalCostJuels; // ════╝ The maximum cost in Juels (1e18) of LINK that will be charged to fulfill a request
+        address client; // ════════════════════╗ The client contract that sent the request
+        uint64 subscriptionId; //              ║ Identifier of the billing subscription that will be charged for the request
+        uint32 callbackGasLimit; // ═══════════╝ The amount of gas that the callback to the consuming contract will be given
+        uint72 adminFee; // ═══════════════════╗ Flat fee (in Juels of LINK) that will be paid to the Router Owner for operation of the network
+        uint72 donFee; //                      ║ Fee (in Juels of LINK) that will be split between Node Operators for servicing a request
+        uint40 gasOverheadBeforeCallback; //   ║ Represents the average gas execution cost before the fulfillment callback.
+        uint40 gasOverheadAfterCallback; //    ║ Represents the average gas execution cost after the fulfillment callback.
+        uint32 timeoutTimestamp; // ═══════════╝ The timestamp at which a request will be eligible to be timed out
+    }
 }
 
 // File: https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/functions/v1_0_0/interfaces/IFunctionsRouter.sol
 
-
 pragma solidity ^0.8.19;
-
 
 /// @title Chainlink Functions Router interface.
 interface IFunctionsRouter {
-  /// @notice The identifier of the route to retrieve the address of the access control contract
-  /// The access control contract controls which accounts can manage subscriptions
-  /// @return id - bytes32 id that can be passed to the "getContractById" of the Router
-  function getAllowListId() external view returns (bytes32);
+    /// @notice The identifier of the route to retrieve the address of the access control contract
+    /// The access control contract controls which accounts can manage subscriptions
+    /// @return id - bytes32 id that can be passed to the "getContractById" of the Router
+    function getAllowListId() external view returns (bytes32);
 
-  /// @notice Set the identifier of the route to retrieve the address of the access control contract
-  /// The access control contract controls which accounts can manage subscriptions
-  function setAllowListId(bytes32 allowListId) external;
+    /// @notice Set the identifier of the route to retrieve the address of the access control contract
+    /// The access control contract controls which accounts can manage subscriptions
+    function setAllowListId(bytes32 allowListId) external;
 
-  /// @notice Get the flat fee (in Juels of LINK) that will be paid to the Router owner for operation of the network
-  /// @return adminFee
-  function getAdminFee() external view returns (uint72 adminFee);
+    /// @notice Get the flat fee (in Juels of LINK) that will be paid to the Router owner for operation of the network
+    /// @return adminFee
+    function getAdminFee() external view returns (uint72 adminFee);
 
-  /// @notice Sends a request using the provided subscriptionId
-  /// @param subscriptionId - A unique subscription ID allocated by billing system,
-  /// a client can make requests from different contracts referencing the same subscription
-  /// @param data - CBOR encoded Chainlink Functions request data, use FunctionsClient API to encode a request
-  /// @param dataVersion - Gas limit for the fulfillment callback
-  /// @param callbackGasLimit - Gas limit for the fulfillment callback
-  /// @param donId - An identifier used to determine which route to send the request along
-  /// @return requestId - A unique request identifier
-  function sendRequest(
-    uint64 subscriptionId,
-    bytes calldata data,
-    uint16 dataVersion,
-    uint32 callbackGasLimit,
-    bytes32 donId
-  ) external returns (bytes32);
+    /// @notice Sends a request using the provided subscriptionId
+    /// @param subscriptionId - A unique subscription ID allocated by billing system,
+    /// a client can make requests from different contracts referencing the same subscription
+    /// @param data - CBOR encoded Chainlink Functions request data, use FunctionsClient API to encode a request
+    /// @param dataVersion - Gas limit for the fulfillment callback
+    /// @param callbackGasLimit - Gas limit for the fulfillment callback
+    /// @param donId - An identifier used to determine which route to send the request along
+    /// @return requestId - A unique request identifier
+    function sendRequest(
+        uint64 subscriptionId,
+        bytes calldata data,
+        uint16 dataVersion,
+        uint32 callbackGasLimit,
+        bytes32 donId
+    ) external returns (bytes32);
 
-  /// @notice Sends a request to the proposed contracts
-  /// @param subscriptionId - A unique subscription ID allocated by billing system,
-  /// a client can make requests from different contracts referencing the same subscription
-  /// @param data - CBOR encoded Chainlink Functions request data, use FunctionsClient API to encode a request
-  /// @param dataVersion - Gas limit for the fulfillment callback
-  /// @param callbackGasLimit - Gas limit for the fulfillment callback
-  /// @param donId - An identifier used to determine which route to send the request along
-  /// @return requestId - A unique request identifier
-  function sendRequestToProposed(
-    uint64 subscriptionId,
-    bytes calldata data,
-    uint16 dataVersion,
-    uint32 callbackGasLimit,
-    bytes32 donId
-  ) external returns (bytes32);
+    /// @notice Sends a request to the proposed contracts
+    /// @param subscriptionId - A unique subscription ID allocated by billing system,
+    /// a client can make requests from different contracts referencing the same subscription
+    /// @param data - CBOR encoded Chainlink Functions request data, use FunctionsClient API to encode a request
+    /// @param dataVersion - Gas limit for the fulfillment callback
+    /// @param callbackGasLimit - Gas limit for the fulfillment callback
+    /// @param donId - An identifier used to determine which route to send the request along
+    /// @return requestId - A unique request identifier
+    function sendRequestToProposed(
+        uint64 subscriptionId,
+        bytes calldata data,
+        uint16 dataVersion,
+        uint32 callbackGasLimit,
+        bytes32 donId
+    ) external returns (bytes32);
 
-  /// @notice Fulfill the request by:
-  /// - calling back the data that the Oracle returned to the client contract
-  /// - pay the DON for processing the request
-  /// @dev Only callable by the Coordinator contract that is saved in the commitment
-  /// @param response response data from DON consensus
-  /// @param err error from DON consensus
-  /// @param juelsPerGas - current rate of juels/gas
-  /// @param costWithoutFulfillment - The cost of processing the request (in Juels of LINK ), without fulfillment
-  /// @param transmitter - The Node that transmitted the OCR report
-  /// @param commitment - The parameters of the request that must be held consistent between request and response time
-  /// @return fulfillResult -
-  /// @return callbackGasCostJuels -
-  function fulfill(
-    bytes memory response,
-    bytes memory err,
-    uint96 juelsPerGas,
-    uint96 costWithoutFulfillment,
-    address transmitter,
-    FunctionsResponse.Commitment memory commitment
-  ) external returns (FunctionsResponse.FulfillResult, uint96);
+    /// @notice Fulfill the request by:
+    /// - calling back the data that the Oracle returned to the client contract
+    /// - pay the DON for processing the request
+    /// @dev Only callable by the Coordinator contract that is saved in the commitment
+    /// @param response response data from DON consensus
+    /// @param err error from DON consensus
+    /// @param juelsPerGas - current rate of juels/gas
+    /// @param costWithoutFulfillment - The cost of processing the request (in Juels of LINK ), without fulfillment
+    /// @param transmitter - The Node that transmitted the OCR report
+    /// @param commitment - The parameters of the request that must be held consistent between request and response time
+    /// @return fulfillResult -
+    /// @return callbackGasCostJuels -
+    function fulfill(
+        bytes memory response,
+        bytes memory err,
+        uint96 juelsPerGas,
+        uint96 costWithoutFulfillment,
+        address transmitter,
+        FunctionsResponse.Commitment memory commitment
+    ) external returns (FunctionsResponse.FulfillResult, uint96);
 
-  /// @notice Validate requested gas limit is below the subscription max.
-  /// @param subscriptionId subscription ID
-  /// @param callbackGasLimit desired callback gas limit
-  function isValidCallbackGasLimit(uint64 subscriptionId, uint32 callbackGasLimit) external view;
+    /// @notice Validate requested gas limit is below the subscription max.
+    /// @param subscriptionId subscription ID
+    /// @param callbackGasLimit desired callback gas limit
+    function isValidCallbackGasLimit(
+        uint64 subscriptionId,
+        uint32 callbackGasLimit
+    ) external view;
 
-  /// @notice Get the current contract given an ID
-  /// @param id A bytes32 identifier for the route
-  /// @return contract The current contract address
-  function getContractById(bytes32 id) external view returns (address);
+    /// @notice Get the current contract given an ID
+    /// @param id A bytes32 identifier for the route
+    /// @return contract The current contract address
+    function getContractById(bytes32 id) external view returns (address);
 
-  /// @notice Get the proposed next contract given an ID
-  /// @param id A bytes32 identifier for the route
-  /// @return contract The current or proposed contract address
-  function getProposedContractById(bytes32 id) external view returns (address);
+    /// @notice Get the proposed next contract given an ID
+    /// @param id A bytes32 identifier for the route
+    /// @return contract The current or proposed contract address
+    function getProposedContractById(
+        bytes32 id
+    ) external view returns (address);
 
-  /// @notice Return the latest proprosal set
-  /// @return ids The identifiers of the contracts to update
-  /// @return to The addresses of the contracts that will be updated to
-  function getProposedContractSet() external view returns (bytes32[] memory, address[] memory);
+    /// @notice Return the latest proprosal set
+    /// @return ids The identifiers of the contracts to update
+    /// @return to The addresses of the contracts that will be updated to
+    function getProposedContractSet()
+        external
+        view
+        returns (bytes32[] memory, address[] memory);
 
-  /// @notice Proposes one or more updates to the contract routes
-  /// @dev Only callable by owner
-  function proposeContractsUpdate(bytes32[] memory proposalSetIds, address[] memory proposalSetAddresses) external;
+    /// @notice Proposes one or more updates to the contract routes
+    /// @dev Only callable by owner
+    function proposeContractsUpdate(
+        bytes32[] memory proposalSetIds,
+        address[] memory proposalSetAddresses
+    ) external;
 
-  /// @notice Updates the current contract routes to the proposed contracts
-  /// @dev Only callable by owner
-  function updateContracts() external;
+    /// @notice Updates the current contract routes to the proposed contracts
+    /// @dev Only callable by owner
+    function updateContracts() external;
 
-  /// @dev Puts the system into an emergency stopped state.
-  /// @dev Only callable by owner
-  function pause() external;
+    /// @dev Puts the system into an emergency stopped state.
+    /// @dev Only callable by owner
+    function pause() external;
 
-  /// @dev Takes the system out of an emergency stopped state.
-  /// @dev Only callable by owner
-  function unpause() external;
+    /// @dev Takes the system out of an emergency stopped state.
+    /// @dev Only callable by owner
+    function unpause() external;
 }
 
 // File: https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/functions/v1_0_0/interfaces/IFunctionsClient.sol
-
 
 pragma solidity ^0.8.19;
 
 /// @title Chainlink Functions client interface.
 interface IFunctionsClient {
-  /// @notice Chainlink Functions response handler called by the Functions Router
-  /// during fullilment from the designated transmitter node in an OCR round.
-  /// @param requestId The requestId returned by FunctionsClient.sendRequest().
-  /// @param response Aggregated response from the request's source code.
-  /// @param err Aggregated error either from the request's source code or from the execution pipeline.
-  /// @dev Either response or error parameter will be set, but never both.
-  function handleOracleFulfillment(bytes32 requestId, bytes memory response, bytes memory err) external;
+    /// @notice Chainlink Functions response handler called by the Functions Router
+    /// during fullilment from the designated transmitter node in an OCR round.
+    /// @param requestId The requestId returned by FunctionsClient.sendRequest().
+    /// @param response Aggregated response from the request's source code.
+    /// @param err Aggregated error either from the request's source code or from the execution pipeline.
+    /// @dev Either response or error parameter will be set, but never both.
+    function handleOracleFulfillment(
+        bytes32 requestId,
+        bytes memory response,
+        bytes memory err
+    ) external;
 }
 
 // File: https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/vendor/@ensdomains/buffer/v0.1.0/Buffer.sol
 
-
 pragma solidity ^0.8.4;
 
 /**
-* @dev A library for working with mutable byte buffers in Solidity.
-*
-* Byte buffers are mutable and expandable, and provide a variety of primitives
-* for appending to them. At any time you can fetch a bytes object containing the
-* current contents of the buffer. The bytes object should not be stored between
-* operations, as it may change due to resizing of the buffer.
-*/
+ * @dev A library for working with mutable byte buffers in Solidity.
+ *
+ * Byte buffers are mutable and expandable, and provide a variety of primitives
+ * for appending to them. At any time you can fetch a bytes object containing the
+ * current contents of the buffer. The bytes object should not be stored between
+ * operations, as it may change due to resizing of the buffer.
+ */
 library Buffer {
     /**
-    * @dev Represents a mutable buffer. Buffers have a current value (buf) and
-    *      a capacity. The capacity may be longer than the current value, in
-    *      which case it can be extended without the need to allocate more memory.
-    */
+     * @dev Represents a mutable buffer. Buffers have a current value (buf) and
+     *      a capacity. The capacity may be longer than the current value, in
+     *      which case it can be extended without the need to allocate more memory.
+     */
     struct buffer {
         bytes buf;
         uint capacity;
     }
 
     /**
-    * @dev Initializes a buffer with an initial capacity.
-    * @param buf The buffer to initialize.
-    * @param capacity The number of bytes of space to allocate the buffer.
-    * @return The buffer, for chaining.
-    */
-    function init(buffer memory buf, uint capacity) internal pure returns(buffer memory) {
+     * @dev Initializes a buffer with an initial capacity.
+     * @param buf The buffer to initialize.
+     * @param capacity The number of bytes of space to allocate the buffer.
+     * @return The buffer, for chaining.
+     */
+    function init(
+        buffer memory buf,
+        uint capacity
+    ) internal pure returns (buffer memory) {
         if (capacity % 32 != 0) {
             capacity += 32 - (capacity % 32);
         }
@@ -846,12 +896,12 @@ library Buffer {
     }
 
     /**
-    * @dev Initializes a new buffer from an existing bytes object.
-    *      Changes to the buffer may mutate the original value.
-    * @param b The bytes object to initialize the buffer with.
-    * @return A new buffer.
-    */
-    function fromBytes(bytes memory b) internal pure returns(buffer memory) {
+     * @dev Initializes a new buffer from an existing bytes object.
+     *      Changes to the buffer may mutate the original value.
+     * @param b The bytes object to initialize the buffer with.
+     * @return A new buffer.
+     */
+    function fromBytes(bytes memory b) internal pure returns (buffer memory) {
         buffer memory buf;
         buf.buf = b;
         buf.capacity = b.length;
@@ -865,10 +915,10 @@ library Buffer {
     }
 
     /**
-    * @dev Sets buffer length to 0.
-    * @param buf The buffer to truncate.
-    * @return The original buffer, for chaining..
-    */
+     * @dev Sets buffer length to 0.
+     * @param buf The buffer to truncate.
+     * @return The original buffer, for chaining..
+     */
     function truncate(buffer memory buf) internal pure returns (buffer memory) {
         assembly {
             let bufptr := mload(buf)
@@ -878,14 +928,18 @@ library Buffer {
     }
 
     /**
-    * @dev Appends len bytes of a byte string to a buffer. Resizes if doing so would exceed
-    *      the capacity of the buffer.
-    * @param buf The buffer to append to.
-    * @param data The data to append.
-    * @param len The number of bytes to copy.
-    * @return The original buffer, for chaining.
-    */
-    function append(buffer memory buf, bytes memory data, uint len) internal pure returns(buffer memory) {
+     * @dev Appends len bytes of a byte string to a buffer. Resizes if doing so would exceed
+     *      the capacity of the buffer.
+     * @param buf The buffer to append to.
+     * @param data The data to append.
+     * @param len The number of bytes to copy.
+     * @return The original buffer, for chaining.
+     */
+    function append(
+        buffer memory buf,
+        bytes memory data,
+        uint len
+    ) internal pure returns (buffer memory) {
         require(len <= data.length);
 
         uint off = buf.buf.length;
@@ -933,24 +987,30 @@ library Buffer {
     }
 
     /**
-    * @dev Appends a byte string to a buffer. Resizes if doing so would exceed
-    *      the capacity of the buffer.
-    * @param buf The buffer to append to.
-    * @param data The data to append.
-    * @return The original buffer, for chaining.
-    */
-    function append(buffer memory buf, bytes memory data) internal pure returns (buffer memory) {
+     * @dev Appends a byte string to a buffer. Resizes if doing so would exceed
+     *      the capacity of the buffer.
+     * @param buf The buffer to append to.
+     * @param data The data to append.
+     * @return The original buffer, for chaining.
+     */
+    function append(
+        buffer memory buf,
+        bytes memory data
+    ) internal pure returns (buffer memory) {
         return append(buf, data, data.length);
     }
 
     /**
-    * @dev Appends a byte to the buffer. Resizes if doing so would exceed the
-    *      capacity of the buffer.
-    * @param buf The buffer to append to.
-    * @param data The data to append.
-    * @return The original buffer, for chaining.
-    */
-    function appendUint8(buffer memory buf, uint8 data) internal pure returns(buffer memory) {
+     * @dev Appends a byte to the buffer. Resizes if doing so would exceed the
+     *      capacity of the buffer.
+     * @param buf The buffer to append to.
+     * @param data The data to append.
+     * @return The original buffer, for chaining.
+     */
+    function appendUint8(
+        buffer memory buf,
+        uint8 data
+    ) internal pure returns (buffer memory) {
         uint off = buf.buf.length;
         uint offPlusOne = off + 1;
         if (off >= buf.capacity) {
@@ -973,14 +1033,18 @@ library Buffer {
     }
 
     /**
-    * @dev Appends len bytes of bytes32 to a buffer. Resizes if doing so would
-    *      exceed the capacity of the buffer.
-    * @param buf The buffer to append to.
-    * @param data The data to append.
-    * @param len The number of bytes to write (left-aligned).
-    * @return The original buffer, for chaining.
-    */
-    function append(buffer memory buf, bytes32 data, uint len) private pure returns(buffer memory) {
+     * @dev Appends len bytes of bytes32 to a buffer. Resizes if doing so would
+     *      exceed the capacity of the buffer.
+     * @param buf The buffer to append to.
+     * @param data The data to append.
+     * @param len The number of bytes to write (left-aligned).
+     * @return The original buffer, for chaining.
+     */
+    function append(
+        buffer memory buf,
+        bytes32 data,
+        uint len
+    ) private pure returns (buffer memory) {
         uint off = buf.buf.length;
         uint newCapacity = len + off;
         if (newCapacity > buf.capacity) {
@@ -1007,24 +1071,30 @@ library Buffer {
     }
 
     /**
-    * @dev Appends a bytes20 to the buffer. Resizes if doing so would exceed
-    *      the capacity of the buffer.
-    * @param buf The buffer to append to.
-    * @param data The data to append.
-    * @return The original buffer, for chhaining.
-    */
-    function appendBytes20(buffer memory buf, bytes20 data) internal pure returns (buffer memory) {
+     * @dev Appends a bytes20 to the buffer. Resizes if doing so would exceed
+     *      the capacity of the buffer.
+     * @param buf The buffer to append to.
+     * @param data The data to append.
+     * @return The original buffer, for chhaining.
+     */
+    function appendBytes20(
+        buffer memory buf,
+        bytes20 data
+    ) internal pure returns (buffer memory) {
         return append(buf, bytes32(data), 20);
     }
 
     /**
-    * @dev Appends a bytes32 to the buffer. Resizes if doing so would exceed
-    *      the capacity of the buffer.
-    * @param buf The buffer to append to.
-    * @param data The data to append.
-    * @return The original buffer, for chaining.
-    */
-    function appendBytes32(buffer memory buf, bytes32 data) internal pure returns (buffer memory) {
+     * @dev Appends a bytes32 to the buffer. Resizes if doing so would exceed
+     *      the capacity of the buffer.
+     * @param buf The buffer to append to.
+     * @param data The data to append.
+     * @return The original buffer, for chaining.
+     */
+    function appendBytes32(
+        buffer memory buf,
+        bytes32 data
+    ) internal pure returns (buffer memory) {
         return append(buf, data, 32);
     }
 
@@ -1036,7 +1106,11 @@ library Buffer {
      * @param len The number of bytes to write (right-aligned).
      * @return The original buffer.
      */
-    function appendInt(buffer memory buf, uint data, uint len) internal pure returns(buffer memory) {
+    function appendInt(
+        buffer memory buf,
+        uint data,
+        uint len
+    ) internal pure returns (buffer memory) {
         uint off = buf.buf.length;
         uint newCapacity = len + off;
         if (newCapacity > buf.capacity) {
@@ -1060,22 +1134,20 @@ library Buffer {
 }
 // File: https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/vendor/solidity-cborutils/v2.0.0/CBOR.sol
 
-
 pragma solidity ^0.8.4;
 
-
 /**
-* @dev A library for populating CBOR encoded payload in Solidity.
-*
-* https://datatracker.ietf.org/doc/html/rfc7049
-*
-* The library offers various write* and start* methods to encode values of different types.
-* The resulted buffer can be obtained with data() method.
-* Encoding of primitive types is staightforward, whereas encoding of sequences can result
-* in an invalid CBOR if start/write/end flow is violated.
-* For the purpose of gas saving, the library does not verify start/write/end flow internally,
-* except for nested start/end pairs.
-*/
+ * @dev A library for populating CBOR encoded payload in Solidity.
+ *
+ * https://datatracker.ietf.org/doc/html/rfc7049
+ *
+ * The library offers various write* and start* methods to encode values of different types.
+ * The resulted buffer can be obtained with data() method.
+ * Encoding of primitive types is staightforward, whereas encoding of sequences can result
+ * in an invalid CBOR if start/write/end flow is violated.
+ * For the purpose of gas saving, the library does not verify start/write/end flow internally,
+ * except for nested start/end pairs.
+ */
 
 library CBOR {
     using Buffer for Buffer.buffer;
@@ -1102,13 +1174,15 @@ library CBOR {
     uint8 private constant CBOR_NULL = 22;
     uint8 private constant CBOR_UNDEFINED = 23;
 
-    function create(uint256 capacity) internal pure returns(CBORBuffer memory cbor) {
+    function create(
+        uint256 capacity
+    ) internal pure returns (CBORBuffer memory cbor) {
         Buffer.init(cbor.buf, capacity);
         cbor.depth = 0;
         return cbor;
     }
 
-    function data(CBORBuffer memory buf) internal pure returns(bytes memory) {
+    function data(CBORBuffer memory buf) internal pure returns (bytes memory) {
         require(buf.depth == 0, "Invalid CBOR");
         return buf.buf.buf;
     }
@@ -1134,19 +1208,25 @@ library CBOR {
     }
 
     function writeInt64(CBORBuffer memory buf, int64 value) internal pure {
-        if(value >= 0) {
+        if (value >= 0) {
             writeFixedNumeric(buf, MAJOR_TYPE_INT, uint64(value));
-        } else{
+        } else {
             writeFixedNumeric(buf, MAJOR_TYPE_NEGATIVE_INT, uint64(-1 - value));
         }
     }
 
-    function writeBytes(CBORBuffer memory buf, bytes memory value) internal pure {
+    function writeBytes(
+        CBORBuffer memory buf,
+        bytes memory value
+    ) internal pure {
         writeFixedNumeric(buf, MAJOR_TYPE_BYTES, uint64(value.length));
         buf.buf.append(value);
     }
 
-    function writeString(CBORBuffer memory buf, string memory value) internal pure {
+    function writeString(
+        CBORBuffer memory buf,
+        string memory value
+    ) internal pure {
         writeFixedNumeric(buf, MAJOR_TYPE_STRING, uint64(bytes(value).length));
         buf.buf.append(bytes(value));
     }
@@ -1168,7 +1248,10 @@ library CBOR {
         buf.depth += 1;
     }
 
-    function startFixedArray(CBORBuffer memory buf, uint64 length) internal pure {
+    function startFixedArray(
+        CBORBuffer memory buf,
+        uint64 length
+    ) internal pure {
         writeDefiniteLengthType(buf, MAJOR_TYPE_ARRAY, length);
     }
 
@@ -1186,57 +1269,97 @@ library CBOR {
         buf.depth -= 1;
     }
 
-    function writeKVString(CBORBuffer memory buf, string memory key, string memory value) internal pure {
+    function writeKVString(
+        CBORBuffer memory buf,
+        string memory key,
+        string memory value
+    ) internal pure {
         writeString(buf, key);
         writeString(buf, value);
     }
 
-    function writeKVBytes(CBORBuffer memory buf, string memory key, bytes memory value) internal pure {
+    function writeKVBytes(
+        CBORBuffer memory buf,
+        string memory key,
+        bytes memory value
+    ) internal pure {
         writeString(buf, key);
         writeBytes(buf, value);
     }
 
-    function writeKVUInt256(CBORBuffer memory buf, string memory key, uint256 value) internal pure {
+    function writeKVUInt256(
+        CBORBuffer memory buf,
+        string memory key,
+        uint256 value
+    ) internal pure {
         writeString(buf, key);
         writeUInt256(buf, value);
     }
 
-    function writeKVInt256(CBORBuffer memory buf, string memory key, int256 value) internal pure {
+    function writeKVInt256(
+        CBORBuffer memory buf,
+        string memory key,
+        int256 value
+    ) internal pure {
         writeString(buf, key);
         writeInt256(buf, value);
     }
 
-    function writeKVUInt64(CBORBuffer memory buf, string memory key, uint64 value) internal pure {
+    function writeKVUInt64(
+        CBORBuffer memory buf,
+        string memory key,
+        uint64 value
+    ) internal pure {
         writeString(buf, key);
         writeUInt64(buf, value);
     }
 
-    function writeKVInt64(CBORBuffer memory buf, string memory key, int64 value) internal pure {
+    function writeKVInt64(
+        CBORBuffer memory buf,
+        string memory key,
+        int64 value
+    ) internal pure {
         writeString(buf, key);
         writeInt64(buf, value);
     }
 
-    function writeKVBool(CBORBuffer memory buf, string memory key, bool value) internal pure {
+    function writeKVBool(
+        CBORBuffer memory buf,
+        string memory key,
+        bool value
+    ) internal pure {
         writeString(buf, key);
         writeBool(buf, value);
     }
 
-    function writeKVNull(CBORBuffer memory buf, string memory key) internal pure {
+    function writeKVNull(
+        CBORBuffer memory buf,
+        string memory key
+    ) internal pure {
         writeString(buf, key);
         writeNull(buf);
     }
 
-    function writeKVUndefined(CBORBuffer memory buf, string memory key) internal pure {
+    function writeKVUndefined(
+        CBORBuffer memory buf,
+        string memory key
+    ) internal pure {
         writeString(buf, key);
         writeUndefined(buf);
     }
 
-    function writeKVMap(CBORBuffer memory buf, string memory key) internal pure {
+    function writeKVMap(
+        CBORBuffer memory buf,
+        string memory key
+    ) internal pure {
         writeString(buf, key);
         startMap(buf);
     }
 
-    function writeKVArray(CBORBuffer memory buf, string memory key) internal pure {
+    function writeKVArray(
+        CBORBuffer memory buf,
+        string memory key
+    ) internal pure {
         writeString(buf, key);
         startArray(buf);
     }
@@ -1263,17 +1386,18 @@ library CBOR {
         }
     }
 
-    function writeIndefiniteLengthType(CBORBuffer memory buf, uint8 major)
-        private
-        pure
-    {
+    function writeIndefiniteLengthType(
+        CBORBuffer memory buf,
+        uint8 major
+    ) private pure {
         buf.buf.appendUint8(uint8((major << 5) | 31));
     }
 
-    function writeDefiniteLengthType(CBORBuffer memory buf, uint8 major, uint64 length)
-        private
-        pure
-    {
+    function writeDefiniteLengthType(
+        CBORBuffer memory buf,
+        uint8 major,
+        uint64 length
+    ) private pure {
         writeFixedNumeric(buf, major, length);
     }
 
@@ -1283,326 +1407,341 @@ library CBOR {
 }
 // File: https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol
 
-
 pragma solidity ^0.8.19;
-
 
 /// @title Library for encoding the input data of a Functions request into CBOR
 library FunctionsRequest {
-  using CBOR for CBOR.CBORBuffer;
+    using CBOR for CBOR.CBORBuffer;
 
-  uint16 public constant REQUEST_DATA_VERSION = 1;
-  uint256 internal constant DEFAULT_BUFFER_SIZE = 256;
+    uint16 public constant REQUEST_DATA_VERSION = 1;
+    uint256 internal constant DEFAULT_BUFFER_SIZE = 256;
 
-  enum Location {
-    Inline, // Provided within the Request
-    Remote, // Hosted through remote location that can be accessed through a provided URL
-    DONHosted // Hosted on the DON's storage
-  }
-
-  enum CodeLanguage {
-    JavaScript
-    // In future version we may add other languages
-  }
-
-  struct Request {
-    Location codeLocation; // ════════════╸ The location of the source code that will be executed on each node in the DON
-    Location secretsLocation; // ═════════╸ The location of secrets that will be passed into the source code. *Only Remote secrets are supported
-    CodeLanguage language; // ════════════╸ The coding language that the source code is written in
-    string source; // ════════════════════╸ Raw source code for Request.codeLocation of Location.Inline, URL for Request.codeLocation of Location.Remote, or slot decimal number for Request.codeLocation of Location.DONHosted
-    bytes encryptedSecretsReference; // ══╸ Encrypted URLs for Request.secretsLocation of Location.Remote (use addSecretsReference()), or CBOR encoded slotid+version for Request.secretsLocation of Location.DONHosted (use addDONHostedSecrets())
-    string[] args; // ════════════════════╸ String arguments that will be passed into the source code
-    bytes[] bytesArgs; // ════════════════╸ Bytes arguments that will be passed into the source code
-  }
-
-  error EmptySource();
-  error EmptySecrets();
-  error EmptyArgs();
-  error NoInlineSecrets();
-
-  /// @notice Encodes a Request to CBOR encoded bytes
-  /// @param self The request to encode
-  /// @return CBOR encoded bytes
-  function encodeCBOR(Request memory self) internal pure returns (bytes memory) {
-    CBOR.CBORBuffer memory buffer = CBOR.create(DEFAULT_BUFFER_SIZE);
-
-    buffer.writeString("codeLocation");
-    buffer.writeUInt256(uint256(self.codeLocation));
-
-    buffer.writeString("language");
-    buffer.writeUInt256(uint256(self.language));
-
-    buffer.writeString("source");
-    buffer.writeString(self.source);
-
-    if (self.args.length > 0) {
-      buffer.writeString("args");
-      buffer.startArray();
-      for (uint256 i = 0; i < self.args.length; ++i) {
-        buffer.writeString(self.args[i]);
-      }
-      buffer.endSequence();
+    enum Location {
+        Inline, // Provided within the Request
+        Remote, // Hosted through remote location that can be accessed through a provided URL
+        DONHosted // Hosted on the DON's storage
     }
 
-    if (self.encryptedSecretsReference.length > 0) {
-      if (self.secretsLocation == Location.Inline) {
-        revert NoInlineSecrets();
-      }
-      buffer.writeString("secretsLocation");
-      buffer.writeUInt256(uint256(self.secretsLocation));
-      buffer.writeString("secrets");
-      buffer.writeBytes(self.encryptedSecretsReference);
+    enum CodeLanguage {
+        JavaScript
+        // In future version we may add other languages
     }
 
-    if (self.bytesArgs.length > 0) {
-      buffer.writeString("bytesArgs");
-      buffer.startArray();
-      for (uint256 i = 0; i < self.bytesArgs.length; ++i) {
-        buffer.writeBytes(self.bytesArgs[i]);
-      }
-      buffer.endSequence();
+    struct Request {
+        Location codeLocation; // ════════════╸ The location of the source code that will be executed on each node in the DON
+        Location secretsLocation; // ═════════╸ The location of secrets that will be passed into the source code. *Only Remote secrets are supported
+        CodeLanguage language; // ════════════╸ The coding language that the source code is written in
+        string source; // ════════════════════╸ Raw source code for Request.codeLocation of Location.Inline, URL for Request.codeLocation of Location.Remote, or slot decimal number for Request.codeLocation of Location.DONHosted
+        bytes encryptedSecretsReference; // ══╸ Encrypted URLs for Request.secretsLocation of Location.Remote (use addSecretsReference()), or CBOR encoded slotid+version for Request.secretsLocation of Location.DONHosted (use addDONHostedSecrets())
+        string[] args; // ════════════════════╸ String arguments that will be passed into the source code
+        bytes[] bytesArgs; // ════════════════╸ Bytes arguments that will be passed into the source code
     }
 
-    return buffer.buf.buf;
-  }
+    error EmptySource();
+    error EmptySecrets();
+    error EmptyArgs();
+    error NoInlineSecrets();
 
-  /// @notice Initializes a Chainlink Functions Request
-  /// @dev Sets the codeLocation and code on the request
-  /// @param self The uninitialized request
-  /// @param codeLocation The user provided source code location
-  /// @param language The programming language of the user code
-  /// @param source The user provided source code or a url
-  function initializeRequest(
-    Request memory self,
-    Location codeLocation,
-    CodeLanguage language,
-    string memory source
-  ) internal pure {
-    if (bytes(source).length == 0) revert EmptySource();
+    /// @notice Encodes a Request to CBOR encoded bytes
+    /// @param self The request to encode
+    /// @return CBOR encoded bytes
+    function encodeCBOR(
+        Request memory self
+    ) internal pure returns (bytes memory) {
+        CBOR.CBORBuffer memory buffer = CBOR.create(DEFAULT_BUFFER_SIZE);
 
-    self.codeLocation = codeLocation;
-    self.language = language;
-    self.source = source;
-  }
+        buffer.writeString("codeLocation");
+        buffer.writeUInt256(uint256(self.codeLocation));
 
-  /// @notice Initializes a Chainlink Functions Request
-  /// @dev Simplified version of initializeRequest for PoC
-  /// @param self The uninitialized request
-  /// @param javaScriptSource The user provided JS code (must not be empty)
-  function initializeRequestForInlineJavaScript(Request memory self, string memory javaScriptSource) internal pure {
-    initializeRequest(self, Location.Inline, CodeLanguage.JavaScript, javaScriptSource);
-  }
+        buffer.writeString("language");
+        buffer.writeUInt256(uint256(self.language));
 
-  /// @notice Adds Remote user encrypted secrets to a Request
-  /// @param self The initialized request
-  /// @param encryptedSecretsReference Encrypted comma-separated string of URLs pointing to off-chain secrets
-  function addSecretsReference(Request memory self, bytes memory encryptedSecretsReference) internal pure {
-    if (encryptedSecretsReference.length == 0) revert EmptySecrets();
+        buffer.writeString("source");
+        buffer.writeString(self.source);
 
-    self.secretsLocation = Location.Remote;
-    self.encryptedSecretsReference = encryptedSecretsReference;
-  }
+        if (self.args.length > 0) {
+            buffer.writeString("args");
+            buffer.startArray();
+            for (uint256 i = 0; i < self.args.length; ++i) {
+                buffer.writeString(self.args[i]);
+            }
+            buffer.endSequence();
+        }
 
-  /// @notice Adds DON-hosted secrets reference to a Request
-  /// @param self The initialized request
-  /// @param slotID Slot ID of the user's secrets hosted on DON
-  /// @param version User data version (for the slotID)
-  function addDONHostedSecrets(Request memory self, uint8 slotID, uint64 version) internal pure {
-    CBOR.CBORBuffer memory buffer = CBOR.create(DEFAULT_BUFFER_SIZE);
+        if (self.encryptedSecretsReference.length > 0) {
+            if (self.secretsLocation == Location.Inline) {
+                revert NoInlineSecrets();
+            }
+            buffer.writeString("secretsLocation");
+            buffer.writeUInt256(uint256(self.secretsLocation));
+            buffer.writeString("secrets");
+            buffer.writeBytes(self.encryptedSecretsReference);
+        }
 
-    buffer.writeString("slotID");
-    buffer.writeUInt64(slotID);
-    buffer.writeString("version");
-    buffer.writeUInt64(version);
+        if (self.bytesArgs.length > 0) {
+            buffer.writeString("bytesArgs");
+            buffer.startArray();
+            for (uint256 i = 0; i < self.bytesArgs.length; ++i) {
+                buffer.writeBytes(self.bytesArgs[i]);
+            }
+            buffer.endSequence();
+        }
 
-    self.secretsLocation = Location.DONHosted;
-    self.encryptedSecretsReference = buffer.buf.buf;
-  }
+        return buffer.buf.buf;
+    }
 
-  /// @notice Sets args for the user run function
-  /// @param self The initialized request
-  /// @param args The array of string args (must not be empty)
-  function setArgs(Request memory self, string[] memory args) internal pure {
-    if (args.length == 0) revert EmptyArgs();
+    /// @notice Initializes a Chainlink Functions Request
+    /// @dev Sets the codeLocation and code on the request
+    /// @param self The uninitialized request
+    /// @param codeLocation The user provided source code location
+    /// @param language The programming language of the user code
+    /// @param source The user provided source code or a url
+    function initializeRequest(
+        Request memory self,
+        Location codeLocation,
+        CodeLanguage language,
+        string memory source
+    ) internal pure {
+        if (bytes(source).length == 0) revert EmptySource();
 
-    self.args = args;
-  }
+        self.codeLocation = codeLocation;
+        self.language = language;
+        self.source = source;
+    }
 
-  /// @notice Sets bytes args for the user run function
-  /// @param self The initialized request
-  /// @param args The array of bytes args (must not be empty)
-  function setBytesArgs(Request memory self, bytes[] memory args) internal pure {
-    if (args.length == 0) revert EmptyArgs();
+    /// @notice Initializes a Chainlink Functions Request
+    /// @dev Simplified version of initializeRequest for PoC
+    /// @param self The uninitialized request
+    /// @param javaScriptSource The user provided JS code (must not be empty)
+    function initializeRequestForInlineJavaScript(
+        Request memory self,
+        string memory javaScriptSource
+    ) internal pure {
+        initializeRequest(
+            self,
+            Location.Inline,
+            CodeLanguage.JavaScript,
+            javaScriptSource
+        );
+    }
 
-    self.bytesArgs = args;
-  }
+    /// @notice Adds Remote user encrypted secrets to a Request
+    /// @param self The initialized request
+    /// @param encryptedSecretsReference Encrypted comma-separated string of URLs pointing to off-chain secrets
+    function addSecretsReference(
+        Request memory self,
+        bytes memory encryptedSecretsReference
+    ) internal pure {
+        if (encryptedSecretsReference.length == 0) revert EmptySecrets();
+
+        self.secretsLocation = Location.Remote;
+        self.encryptedSecretsReference = encryptedSecretsReference;
+    }
+
+    /// @notice Adds DON-hosted secrets reference to a Request
+    /// @param self The initialized request
+    /// @param slotID Slot ID of the user's secrets hosted on DON
+    /// @param version User data version (for the slotID)
+    function addDONHostedSecrets(
+        Request memory self,
+        uint8 slotID,
+        uint64 version
+    ) internal pure {
+        CBOR.CBORBuffer memory buffer = CBOR.create(DEFAULT_BUFFER_SIZE);
+
+        buffer.writeString("slotID");
+        buffer.writeUInt64(slotID);
+        buffer.writeString("version");
+        buffer.writeUInt64(version);
+
+        self.secretsLocation = Location.DONHosted;
+        self.encryptedSecretsReference = buffer.buf.buf;
+    }
+
+    /// @notice Sets args for the user run function
+    /// @param self The initialized request
+    /// @param args The array of string args (must not be empty)
+    function setArgs(Request memory self, string[] memory args) internal pure {
+        if (args.length == 0) revert EmptyArgs();
+
+        self.args = args;
+    }
+
+    /// @notice Sets bytes args for the user run function
+    /// @param self The initialized request
+    /// @param args The array of bytes args (must not be empty)
+    function setBytesArgs(
+        Request memory self,
+        bytes[] memory args
+    ) internal pure {
+        if (args.length == 0) revert EmptyArgs();
+
+        self.bytesArgs = args;
+    }
 }
 
 // File: https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol
 
-
 pragma solidity ^0.8.19;
-
-
-
 
 /// @title The Chainlink Functions client contract
 /// @notice Contract developers can inherit this contract in order to make Chainlink Functions requests
 abstract contract FunctionsClient is IFunctionsClient {
-  using FunctionsRequest for FunctionsRequest.Request;
+    using FunctionsRequest for FunctionsRequest.Request;
 
-  IFunctionsRouter internal immutable i_router;
+    IFunctionsRouter internal immutable i_router;
 
-  event RequestSent(bytes32 indexed id);
-  event RequestFulfilled(bytes32 indexed id);
+    event RequestSent(bytes32 indexed id);
+    event RequestFulfilled(bytes32 indexed id);
 
-  error OnlyRouterCanFulfill();
+    error OnlyRouterCanFulfill();
 
-  constructor(address router) {
-    i_router = IFunctionsRouter(router);
-  }
-
-  /// @notice Sends a Chainlink Functions request
-  /// @param data The CBOR encoded bytes data for a Functions request
-  /// @param subscriptionId The subscription ID that will be charged to service the request
-  /// @param callbackGasLimit the amount of gas that will be available for the fulfillment callback
-  /// @return requestId The generated request ID for this request
-  function _sendRequest(
-    bytes memory data,
-    uint64 subscriptionId,
-    uint32 callbackGasLimit,
-    bytes32 donId
-  ) internal returns (bytes32) {
-    bytes32 requestId = i_router.sendRequest(
-      subscriptionId,
-      data,
-      FunctionsRequest.REQUEST_DATA_VERSION,
-      callbackGasLimit,
-      donId
-    );
-    emit RequestSent(requestId);
-    return requestId;
-  }
-
-  /// @notice User defined function to handle a response from the DON
-  /// @param requestId The request ID, returned by sendRequest()
-  /// @param response Aggregated response from the execution of the user's source code
-  /// @param err Aggregated error from the execution of the user code or from the execution pipeline
-  /// @dev Either response or error parameter will be set, but never both
-  function fulfillRequest(bytes32 requestId, bytes memory response, bytes memory err) internal virtual;
-
-  /// @inheritdoc IFunctionsClient
-  function handleOracleFulfillment(bytes32 requestId, bytes memory response, bytes memory err) external override {
-    if (msg.sender != address(i_router)) {
-      revert OnlyRouterCanFulfill();
+    constructor(address router) {
+        i_router = IFunctionsRouter(router);
     }
-    fulfillRequest(requestId, response, err);
-    emit RequestFulfilled(requestId);
-  }
+
+    /// @notice Sends a Chainlink Functions request
+    /// @param data The CBOR encoded bytes data for a Functions request
+    /// @param subscriptionId The subscription ID that will be charged to service the request
+    /// @param callbackGasLimit the amount of gas that will be available for the fulfillment callback
+    /// @return requestId The generated request ID for this request
+    function _sendRequest(
+        bytes memory data,
+        uint64 subscriptionId,
+        uint32 callbackGasLimit,
+        bytes32 donId
+    ) internal returns (bytes32) {
+        bytes32 requestId = i_router.sendRequest(
+            subscriptionId,
+            data,
+            FunctionsRequest.REQUEST_DATA_VERSION,
+            callbackGasLimit,
+            donId
+        );
+        emit RequestSent(requestId);
+        return requestId;
+    }
+
+    /// @notice User defined function to handle a response from the DON
+    /// @param requestId The request ID, returned by sendRequest()
+    /// @param response Aggregated response from the execution of the user's source code
+    /// @param err Aggregated error from the execution of the user code or from the execution pipeline
+    /// @dev Either response or error parameter will be set, but never both
+    function fulfillRequest(
+        bytes32 requestId,
+        bytes memory response,
+        bytes memory err
+    ) internal virtual;
+
+    /// @inheritdoc IFunctionsClient
+    function handleOracleFulfillment(
+        bytes32 requestId,
+        bytes memory response,
+        bytes memory err
+    ) external override {
+        if (msg.sender != address(i_router)) {
+            revert OnlyRouterCanFulfill();
+        }
+        fulfillRequest(requestId, response, err);
+        emit RequestFulfilled(requestId);
+    }
 }
 
 // File: https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/shared/interfaces/IOwnable.sol
 
-
 pragma solidity ^0.8.0;
 
 interface IOwnable {
-  function owner() external returns (address);
+    function owner() external returns (address);
 
-  function transferOwnership(address recipient) external;
+    function transferOwnership(address recipient) external;
 
-  function acceptOwnership() external;
+    function acceptOwnership() external;
 }
 
 // File: https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/shared/access/ConfirmedOwnerWithProposal.sol
 
-
 pragma solidity ^0.8.0;
-
 
 /// @title The ConfirmedOwner contract
 /// @notice A contract with helpers for basic contract ownership.
 contract ConfirmedOwnerWithProposal is IOwnable {
-  address private s_owner;
-  address private s_pendingOwner;
+    address private s_owner;
+    address private s_pendingOwner;
 
-  event OwnershipTransferRequested(address indexed from, address indexed to);
-  event OwnershipTransferred(address indexed from, address indexed to);
+    event OwnershipTransferRequested(address indexed from, address indexed to);
+    event OwnershipTransferred(address indexed from, address indexed to);
 
-  constructor(address newOwner, address pendingOwner) {
-    // solhint-disable-next-line gas-custom-errors
-    require(newOwner != address(0), "Cannot set owner to zero");
+    constructor(address newOwner, address pendingOwner) {
+        // solhint-disable-next-line gas-custom-errors
+        require(newOwner != address(0), "Cannot set owner to zero");
 
-    s_owner = newOwner;
-    if (pendingOwner != address(0)) {
-      _transferOwnership(pendingOwner);
+        s_owner = newOwner;
+        if (pendingOwner != address(0)) {
+            _transferOwnership(pendingOwner);
+        }
     }
-  }
 
-  /// @notice Allows an owner to begin transferring ownership to a new address.
-  function transferOwnership(address to) public override onlyOwner {
-    _transferOwnership(to);
-  }
+    /// @notice Allows an owner to begin transferring ownership to a new address.
+    function transferOwnership(address to) public override onlyOwner {
+        _transferOwnership(to);
+    }
 
-  /// @notice Allows an ownership transfer to be completed by the recipient.
-  function acceptOwnership() external override {
-    // solhint-disable-next-line gas-custom-errors
-    require(msg.sender == s_pendingOwner, "Must be proposed owner");
+    /// @notice Allows an ownership transfer to be completed by the recipient.
+    function acceptOwnership() external override {
+        // solhint-disable-next-line gas-custom-errors
+        require(msg.sender == s_pendingOwner, "Must be proposed owner");
 
-    address oldOwner = s_owner;
-    s_owner = msg.sender;
-    s_pendingOwner = address(0);
+        address oldOwner = s_owner;
+        s_owner = msg.sender;
+        s_pendingOwner = address(0);
 
-    emit OwnershipTransferred(oldOwner, msg.sender);
-  }
+        emit OwnershipTransferred(oldOwner, msg.sender);
+    }
 
-  /// @notice Get the current owner
-  function owner() public view override returns (address) {
-    return s_owner;
-  }
+    /// @notice Get the current owner
+    function owner() public view override returns (address) {
+        return s_owner;
+    }
 
-  /// @notice validate, transfer ownership, and emit relevant events
-  function _transferOwnership(address to) private {
-    // solhint-disable-next-line gas-custom-errors
-    require(to != msg.sender, "Cannot transfer to self");
+    /// @notice validate, transfer ownership, and emit relevant events
+    function _transferOwnership(address to) private {
+        // solhint-disable-next-line gas-custom-errors
+        require(to != msg.sender, "Cannot transfer to self");
 
-    s_pendingOwner = to;
+        s_pendingOwner = to;
 
-    emit OwnershipTransferRequested(s_owner, to);
-  }
+        emit OwnershipTransferRequested(s_owner, to);
+    }
 
-  /// @notice validate access
-  function _validateOwnership() internal view {
-    // solhint-disable-next-line gas-custom-errors
-    require(msg.sender == s_owner, "Only callable by owner");
-  }
+    /// @notice validate access
+    function _validateOwnership() internal view {
+        // solhint-disable-next-line gas-custom-errors
+        require(msg.sender == s_owner, "Only callable by owner");
+    }
 
-  /// @notice Reverts if called by anyone other than the contract owner.
-  modifier onlyOwner() {
-    _validateOwnership();
-    _;
-  }
+    /// @notice Reverts if called by anyone other than the contract owner.
+    modifier onlyOwner() {
+        _validateOwnership();
+        _;
+    }
 }
 
 // File: https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/shared/access/ConfirmedOwner.sol
 
-
 pragma solidity ^0.8.0;
-
 
 /// @title The ConfirmedOwner contract
 /// @notice A contract with helpers for basic contract ownership.
 contract ConfirmedOwner is ConfirmedOwnerWithProposal {
-  constructor(address newOwner) ConfirmedOwnerWithProposal(newOwner, address(0)) {}
+    constructor(
+        address newOwner
+    ) ConfirmedOwnerWithProposal(newOwner, address(0)) {}
 }
 
 // File: GeoMarkt/AnalyticsAPICaller.sol
 
-
 pragma solidity 0.8.25;
-
-
-
 
 contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
     using FunctionsRequest for FunctionsRequest.Request;
@@ -1612,13 +1751,18 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
     bytes public s_lastError;
     error UnexpectedRequestID(bytes32 requestId);
 
-    event Response(bytes32 indexed requestId, string character, bytes response, bytes err);
+    event Response(
+        bytes32 indexed requestId,
+        string character,
+        bytes response,
+        bytes err
+    );
 
     address public immutable router;
     string source =
         "const name = args[0];"
         "const apiResponse = await Functions.makeHttpRequest({"
-         "url: `https://GeoMarkt-analytics-api-gl5bbi32cq-ts.a.run.app/api/city/code/${name}`"
+        "url: `https://GeoMarkt-analytics-api-gl5bbi32cq-ts.a.run.app/api/city/code/${name}`"
         "});"
         "if (apiResponse.error) {"
         "throw Error('Request failed');"
@@ -1635,16 +1779,28 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
         router = 0x65Dcc24F8ff9e51F10DCc7Ed1e4e2A61e6E14bd6;
     }
 
-    function sendRequest(uint64 subscriptionId, string[] calldata args) external onlyOwner virtual returns (bytes32 requestId) {
+    function sendRequest(
+        uint64 subscriptionId,
+        string[] calldata args
+    ) external virtual onlyOwner returns (bytes32 requestId) {
         FunctionsRequest.Request memory req;
         req.initializeRequestForInlineJavaScript(source);
         if (args.length > 0) req.setArgs(args);
 
-        s_lastRequestId = _sendRequest(req.encodeCBOR(), subscriptionId, gasLimit, donID);
+        s_lastRequestId = _sendRequest(
+            req.encodeCBOR(),
+            subscriptionId,
+            gasLimit,
+            donID
+        );
         return s_lastRequestId;
     }
 
-    function fulfillRequest(bytes32 requestId, bytes memory response, bytes memory err) internal override {
+    function fulfillRequest(
+        bytes32 requestId,
+        bytes memory response,
+        bytes memory err
+    ) internal override {
         if (s_lastRequestId != requestId) {
             revert UnexpectedRequestID(requestId);
         }
@@ -1654,18 +1810,18 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
         emit Response(requestId, character, s_lastResponse, s_lastError);
     }
 
-    function getLatestPriceData(string memory cityCode) external view returns (string memory) {
+    function getLatestPriceData(
+        string memory cityCode
+    ) external view returns (string memory) {
         // This function should parse the s_lastResponse to return the latest price data
         return character; // For simplicity, returning the whole response as string
     }
 }
 // File: @openzeppelin/contracts/access/Ownable.sol
 
-
 // OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)
 
 pragma solidity ^0.8.20;
-
 
 /**
  * @dev Contract module which provides a basic access control mechanism, where
@@ -1692,7 +1848,10 @@ abstract contract Ownable is Context {
      */
     error OwnableInvalidOwner(address owner);
 
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
 
     /**
      * @dev Initializes the contract setting the address provided by the deployer as the initial owner.
@@ -1763,11 +1922,9 @@ abstract contract Ownable is Context {
 
 // File: @openzeppelin/contracts/utils/Pausable.sol
 
-
 // OpenZeppelin Contracts (last updated v5.0.0) (utils/Pausable.sol)
 
 pragma solidity ^0.8.20;
-
 
 /**
  * @dev Contract module which allows children to implement an emergency stop
@@ -1884,12 +2041,9 @@ abstract contract Pausable is Context {
 
 // File: @openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol
 
-
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/extensions/ERC20Pausable.sol)
 
 pragma solidity ^0.8.20;
-
-
 
 /**
  * @dev ERC20 token with pausable token transfers, minting and burning.
@@ -1912,19 +2066,28 @@ abstract contract ERC20Pausable is ERC20, Pausable {
      *
      * - the contract must not be paused.
      */
-    function _update(address from, address to, uint256 value) internal virtual override whenNotPaused {
+    function _update(
+        address from,
+        address to,
+        uint256 value
+    ) internal virtual override whenNotPaused {
         super._update(from, to, value);
     }
 }
 
 // File: GeoMarkt/CityIndex.sol
 
-
-
 // Interface for the GMT token
 interface IGMTToken {
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
-    function transfer(address recipient, uint256 amount) external returns (bool);
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
+    function transfer(
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
 }
 
 contract CityIndex is ERC20, ERC20Pausable, Ownable {
@@ -1945,8 +2108,8 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
         address _gmtTokenAddress,
         address _paymasterAddress, // Add paymaster address
         uint256 fee
-    ) ERC20(_name, _symbol) Ownable(msg.sender) payable  {
-        require(msg.value>fee);
+    ) payable ERC20(_name, _symbol) Ownable(msg.sender) {
+        require(msg.value > fee);
         city = _name;
         code = _code;
         analyticsApiCaller = _apiCallerAddress;
@@ -1960,10 +2123,16 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
         code = _code;
     }
 
-    function priceFeed(uint64 _subscriptionId) public returns (bytes32 requestId) {
+    function priceFeed(
+        uint64 _subscriptionId
+    ) public returns (bytes32 requestId) {
         string[] memory args = new string[](1);
         args[0] = code;
-        return AnalyticsAPICaller(analyticsApiCaller).sendRequest(_subscriptionId, args);
+        return
+            AnalyticsAPICaller(analyticsApiCaller).sendRequest(
+                _subscriptionId,
+                args
+            );
     }
 
     function pause() public onlyOwner {
@@ -1977,30 +2146,45 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
     // Buying using GMT token
     function buyWithGMT(address to, uint256 amount) public {
         uint256 tokenAmount = amount * 10 ** decimals();
-        uint256 gmtAmount = tokenAmount * currentPrice / (10 ** decimals());
-        require(tokenAmount <= balanceOf(owner()), "Not enough city tokens available");
-        require(gmtToken.transferFrom(msg.sender, address(this), gmtAmount), "GMT transfer failed");
+        uint256 gmtAmount = (tokenAmount * currentPrice) / (10 ** decimals());
+        require(
+            tokenAmount <= balanceOf(owner()),
+            "Not enough city tokens available"
+        );
+        require(
+            gmtToken.transferFrom(msg.sender, address(this), gmtAmount),
+            "GMT transfer failed"
+        );
         _transfer(owner(), to, tokenAmount);
     }
 
     // Selling using GMT token
     function sellWithGMT(address from, uint256 amount) public {
         uint256 tokenAmount = amount * 10 ** decimals();
-        uint256 gmtAmount = tokenAmount * currentPrice / (10 ** decimals());
+        uint256 gmtAmount = (tokenAmount * currentPrice) / (10 ** decimals());
         require(tokenAmount <= balanceOf(from), "Not enough tokens");
         require(gmtToken.transfer(from, gmtAmount), "GMT transfer failed");
         _transfer(from, owner(), tokenAmount);
     }
 
     // Buying using Paymaster
-    function buyWithPaymaster(address to, uint256 amount, bytes calldata paymasterParams) public {
+    function buyWithPaymaster(
+        address to,
+        uint256 amount,
+        bytes calldata paymasterParams
+    ) public {
         uint256 tokenAmount = amount * 10 ** decimals();
-        require(tokenAmount <= balanceOf(owner()), "Not enough city tokens available");
-        
+        require(
+            tokenAmount <= balanceOf(owner()),
+            "Not enough city tokens available"
+        );
+
         // Interact with the Paymaster to pay for the transaction
         // Assuming the Paymaster has a function to handle this
         (bool success, ) = paymasterAddress.call(
-            abi.encodeWithSignature("validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)"/* parameters */)
+            abi.encodeWithSignature(
+                "validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)" /* parameters */
+            )
         );
         require(success, "Paymaster transaction failed");
 
@@ -2008,12 +2192,18 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
     }
 
     // Selling using Paymaster
-    function sellWithPaymaster(address from, uint256 amount, bytes calldata paymasterParams) public {
+    function sellWithPaymaster(
+        address from,
+        uint256 amount,
+        bytes calldata paymasterParams
+    ) public {
         uint256 tokenAmount = amount * 10 ** decimals();
         require(tokenAmount <= balanceOf(from), "Not enough tokens");
 
         (bool success, ) = paymasterAddress.call(
-            abi.encodeWithSignature("validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)" /* parameters */)
+            abi.encodeWithSignature(
+                "validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)" /* parameters */
+            )
         );
         require(success, "Paymaster transaction failed");
 
@@ -2024,7 +2214,11 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
         currentPrice = newPrice;
     }
 
-    function _update(address from, address to, uint256 value) internal override(ERC20, ERC20Pausable) {
+    function _update(
+        address from,
+        address to,
+        uint256 value
+    ) internal override(ERC20, ERC20Pausable) {
         super._update(from, to, value);
     }
 }
