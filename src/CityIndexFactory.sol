@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
@@ -37,10 +36,15 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
         emit CodeUpdated(oldCode, _code);
     }
 
-    function priceFeed(uint64 _subscriptionId) public returns (bytes32 requestId) {
+    function priceFeed(
+        uint64 _subscriptionId
+    ) public returns (bytes32 requestId) {
         string[] memory args = new string[](1);
         args[0] = code;
-        requestId = AnalyticsAPICaller(analyticsApiCaller).sendRequest(_subscriptionId, args);
+        requestId = AnalyticsAPICaller(analyticsApiCaller).sendRequest(
+            _subscriptionId,
+            args
+        );
         emit PriceFeedRequested(_subscriptionId, requestId);
         return requestId;
     }
@@ -55,7 +59,10 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
 
     function buy(address to, uint256 amount) public payable {
         uint256 tokenAmount = amount * 10 ** decimals();
-        require(tokenAmount <= balanceOf(owner()), "Not enough city tokens available");
+        require(
+            tokenAmount <= balanceOf(owner()),
+            "Not enough city tokens available"
+        );
         _transfer(owner(), to, tokenAmount);
         emit TokensBought(to, amount);
     }
@@ -63,13 +70,20 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
     function sell(address from, uint256 amount) public payable {
         uint256 tokenAmount = amount * 10 ** decimals();
         require(tokenAmount <= balanceOf(from), "Not enough tokens");
-        require(address(this).balance >= msg.value, "Not enough Ether in contract");
+        require(
+            address(this).balance >= msg.value,
+            "Not enough Ether in contract"
+        );
         _transfer(from, owner(), tokenAmount);
         payable(from).transfer(msg.value);
         emit TokensSold(from, amount);
     }
 
-    function _update(address from, address to, uint256 value) internal override(ERC20, ERC20Pausable) {
+    function _update(
+        address from,
+        address to,
+        uint256 value
+    ) internal override(ERC20, ERC20Pausable) {
         super._update(from, to, value);
     }
 }
@@ -87,10 +101,6 @@ contract CityIndexFactory {
     );
 
     address public immutable analyticsApiCallerAddress;
-
-    constructor(address _analyticsApiCallerAddress) {
-        analyticsApiCallerAddress = _analyticsApiCallerAddress;
-    }
 
     function createCityIndex(
         string memory _name,
@@ -121,7 +131,9 @@ contract CityIndexFactory {
         return address(newCityIndex);
     }
 
-    function getIndicesByOwner(address _owner) external view returns (address[] memory) {
+    function getIndicesByOwner(
+        address _owner
+    ) external view returns (address[] memory) {
         return ownerToIndices[_owner];
     }
 }
