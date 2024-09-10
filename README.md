@@ -101,7 +101,7 @@ A decentralized platform that allows users to trade city-based tokens. These tok
 ALL Contracts were deployed on Base Sepoila
 | Contract           | Address         |
 |--------------------|-----------------|
-| GeoMarktTrading    | 0xbe0311e8B5ae8E0370BF03d52C035A4F054a6956 |
+| GeoMarktTrading    | 0x79EbcC60E31e9DA03920bF80440C50Ceefa6ef0e |
 | GeoMarktToken (GMT)| 0x87A7346C49CF630C5D63Bc02d056eA4988c67f01 |
 | CityIndex (EPE)    | 0x3Ef64494ffA42114FE9Eda91817aEBE5f54F1a3b |                          
 | CityIndexFactory   | 0x9b4C322fD7282e2556915B46ED8C14825666Fbca |
