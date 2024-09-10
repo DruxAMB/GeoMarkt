@@ -11,24 +11,30 @@ const NewRealEstate = () => {
     supply: "",
     indexSymbol: "",
     developmentStageStatus: "",
+    file: null as File | null,  // Add file to formData
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, type, files } = e.target;
+    if (type === "file") {
+      setFormData({
+        ...formData,
+        [name]: files ? files[0] : null,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
-  // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Log form data to the console
     console.log("Form Data Submitted:", formData);
 
-    // Salem, include Additional logic for form submission here
-    // For example, sending the data to a server or updating application state
+    // Handle file upload and other submission logic here
+    // For example, you might want to send formData to a server
   };
 
   return (
@@ -108,6 +114,15 @@ const NewRealEstate = () => {
             name="developmentStageStatus"
             placeholder="Current Stage of City's Development"
             value={formData.developmentStageStatus}
+            onChange={handleChange}
+            className="input p-2 bg-slate-900 rounded-md border-2"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="file">Upload Document/Picture</label>
+          <input
+            type="file"
+            name="file"
             onChange={handleChange}
             className="input p-2 bg-slate-900 rounded-md border-2"
           />
