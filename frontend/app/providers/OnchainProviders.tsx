@@ -11,6 +11,7 @@ type Props = { children: ReactNode };
 const queryClient = new QueryClient();
 
 function OnchainProviders({ children }: Props) {
+
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
