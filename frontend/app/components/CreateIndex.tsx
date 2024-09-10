@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 
 const NewRealEstate = () => {
   const [formData, setFormData] = useState({
@@ -11,24 +11,36 @@ const NewRealEstate = () => {
     supply: "",
     indexSymbol: "",
     developmentStageStatus: "",
-    currency: "",
+    file: null as File | null,  // Add file to formData
   });
 
-  // Updated handleChange function to update form data state
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, type, files } = e.target;
+    if (type === "file") {
+      setFormData({
+        ...formData,
+        [name]: files ? files[0] : null,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
-  // You can add a submit handler for form submission logic if needed
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Form Data Submitted:", formData);
+
+    // Handle file upload and other submission logic here
+    // For example, you might want to send formData to a server
+  };
 
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-2xl font-bold mb-5 text-center">Create New Real Estate Index</h1>
-      <form className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
         <div className="flex flex-col">
           <label htmlFor="cityName">City Name</label>
           <input
@@ -107,12 +119,10 @@ const NewRealEstate = () => {
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="currency">Currency</label>
+          <label htmlFor="file">Upload Document/Picture</label>
           <input
-            type="text"
-            name="currency"
-            placeholder="Currency Used"
-            value={formData.currency}
+            type="file"
+            name="file"
             onChange={handleChange}
             className="input p-2 bg-slate-900 rounded-md border-2"
           />
