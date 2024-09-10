@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 
 const NewRealEstate = () => {
   const [formData, setFormData] = useState({
@@ -11,10 +11,8 @@ const NewRealEstate = () => {
     supply: "",
     indexSymbol: "",
     developmentStageStatus: "",
-    currency: "",
   });
 
-  // Updated handleChange function to update form data state
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -23,12 +21,20 @@ const NewRealEstate = () => {
     });
   };
 
-  // You can add a submit handler for form submission logic if needed
+  // Handle form submission
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Log form data to the console
+    console.log("Form Data Submitted:", formData);
+
+    // Salem, include Additional logic for form submission here
+    // For example, sending the data to a server or updating application state
+  };
 
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-2xl font-bold mb-5 text-center">Create New Real Estate Index</h1>
-      <form className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
         <div className="flex flex-col">
           <label htmlFor="cityName">City Name</label>
           <input
@@ -102,17 +108,6 @@ const NewRealEstate = () => {
             name="developmentStageStatus"
             placeholder="Current Stage of City's Development"
             value={formData.developmentStageStatus}
-            onChange={handleChange}
-            className="input p-2 bg-slate-900 rounded-md border-2"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="currency">Currency</label>
-          <input
-            type="text"
-            name="currency"
-            placeholder="Currency Used"
-            value={formData.currency}
             onChange={handleChange}
             className="input p-2 bg-slate-900 rounded-md border-2"
           />
