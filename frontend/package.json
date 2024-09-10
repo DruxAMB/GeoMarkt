@@ -7,10 +7,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "fleek": "fleek",
+    "fleek:login": "fleek login",
+    "fleek:deploy": "NEXT_PUBLIC_PROD=true next build && fleek sites deploy"
   },
   "dependencies": {
     "@coinbase/onchainkit": "^0.31.5",
+    "@fleek-platform/cli": "^2.9.1",
+    "json": "^11.0.0",
     "@next/bundle-analyzer": "^14.2.8",
     "@tanstack/react-query": "^5.55.4",
     "@wagmi/core": "^2.13.5",

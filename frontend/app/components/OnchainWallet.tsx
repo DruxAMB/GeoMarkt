@@ -18,12 +18,9 @@ export function OnchainWallet() {
   return (
     <div className="flex justify-end">
       <Wallet>
-        <ConnectWallet
-          text="Onchain Login"
-          className="bg-transparent p-2 text-black"
-        >
-          <Avatar className="text-black h-6 w-6" />
-          <Name className="text-black" />
+        <ConnectWallet text="Onchain Login" className="bg-transparent p-2 ">
+          <Avatar className=" h-6 w-6" />
+          <Name className="" />
         </ConnectWallet>
         <WalletDropdown>
           <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
