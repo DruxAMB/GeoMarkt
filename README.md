@@ -104,7 +104,7 @@ ALL Contracts were deployed on Base Sepoila
 | GeoMarktTrading    | 0x79EbcC60E31e9DA03920bF80440C50Ceefa6ef0e |
 | GeoMarktToken (GMT)| 0x87A7346C49CF630C5D63Bc02d056eA4988c67f01 |
 | CityIndex (EPE)    | 0x3Ef64494ffA42114FE9Eda91817aEBE5f54F1a3b |                          
-| CityIndexFactory   | 0x9b4C322fD7282e2556915B46ED8C14825666Fbca |
+| CityIndexFactory   | 0x3b1B708D2a9B4f214F71Ad555Dd4e0d601327f18 |
 |EPE CITY TOKEN(EPE) | 0xc77c2b7A3bAe71eb3cFC1700F675b34146A9A11C | N0te that EPE has 10 billion tokens because EPE is 10 billion  sq feets
 |PayMaster           | 0xBd35aE6683Ce69239F79bc857b1C3D555f3C21Db |  Note: We support GMT token for paymaster now.
 
