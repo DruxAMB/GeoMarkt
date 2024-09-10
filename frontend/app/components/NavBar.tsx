@@ -10,6 +10,7 @@ import { ConnectButton, ThirdwebProvider, darkTheme } from "thirdweb/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createThirdwebClient } from "thirdweb";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
+import { OnchainWallet } from "./OnchainWallet";
 
 // Initialize QueryClient for React Query
 const queryClient = new QueryClient();
@@ -69,7 +70,10 @@ export const NavBar = () => {
   const navLinks = () => (
     <ul className="flex flex-col gap-4 lg:flex-row lg:gap-5">
       {links.map((link, index) => (
-        <li key={index} className="hover:bg-gray-600/50 px-2 rounded-lg hover:text-white">
+        <li
+          key={index}
+          className="hover:bg-gray-600/50 px-2 rounded-lg hover:text-white"
+        >
           <Link href={link.url}>
             <p>{link.name}</p>
           </Link>
@@ -82,6 +86,7 @@ export const NavBar = () => {
           theme={customTheme}
           chain={baseSepolia}
         />
+        <OnchainWallet />
       </li>
     </ul>
   );
@@ -133,6 +138,7 @@ export const NavBar = () => {
               theme={customTheme}
               chain={baseSepolia}
             />
+            <OnchainWallet />
           </div>
 
           {/* Mobile Menu */}
