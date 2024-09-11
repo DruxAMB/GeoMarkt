@@ -3,7 +3,9 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router"; // Import useRouter from Next.js
 import Logo from "../../public/images/logo.png";
+import LogoLight from "../../public/images/logo-light.png"; // Import the light logo
 import { MenuIcon, X } from "lucide-react";
 import { baseSepolia } from "thirdweb/chains";
 import { ConnectButton, ThirdwebProvider, darkTheme } from "thirdweb/react";
@@ -36,18 +38,23 @@ const wallets = [
 
 export const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter(); // Use router to track the current route
+  const [isHome, setIsHome] = useState(true); // State to check if we're on the home route
 
   useEffect(() => {
+    // Check if the current route is home
+    setIsHome(router.pathname === "/");
+
     const handleScroll = () => {
       const navbar = document.getElementById("navbar");
 
       if (navbar) {
         if (window.scrollY > 50) {
-          navbar.classList.add("text-basewhite", "shadow-lg");
-          navbar.classList.remove("bg-transparent");
+          navbar.classList.add("text-white", "shadow-lg");
+          navbar.classList.remove("text-background");
         } else {
           navbar.classList.add("bg-transparent");
-          navbar.classList.remove("text-basewhite", "shadow-lg");
+          navbar.classList.remove("text-white", "shadow-lg");
         }
       }
     };
@@ -57,7 +64,7 @@ export const NavBar = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [router.pathname]); // Re-run effect when the route changes
 
   const links = [
     { name: "Projects", url: "/projects" },
@@ -96,13 +103,15 @@ export const NavBar = () => {
       <ThirdwebProvider>
         <div
           id="navbar"
-          className="page-transition flex z-50 items-center justify-between p-5 px-4 md:px-10 lg:px-32 text-center text-background fixed w-full backdrop-blur-md"
+          className={`page-transition flex z-50 items-center justify-between p-5 px-4 md:px-10 lg:px-32 text-center fixed w-full backdrop-blur-md ${
+            isHome ? "text-background" : "text-white"
+          }`} // Change text color based on route
         >
           {/* Logo on the left */}
           <Link href={"/"}>
             <h1 className="font-semibold text-lg flex items-center">
               <Image
-                src={Logo}
+                src={isHome ? Logo : LogoLight} // Use the appropriate logo based on route
                 alt="logo"
                 height={30}
                 width={30}
