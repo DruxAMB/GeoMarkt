@@ -7,7 +7,7 @@ import { MyQueryDocument, MyQueryQuery, subscribe } from "../../.graphclient";
 import { ExecutionResult } from "graphql";
 import { gql, request } from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
-import { CityIndexFactoriesData } from "@/types";
+import { ICityIndexFactoriesData, ICityIndexFactory } from "@/types";
 const url =
   "https://api.studio.thegraph.com/query/88691/geomarket/version/latest";
 const query = gql`
@@ -47,9 +47,7 @@ export const Dashboard = () => {
     null
   );
 
-  const { data: cityFactoriesData } = useQuery<{
-    cityIndexFactories: CityIndexFactoriesData;
-  }>({
+  const { data: cityFactoriesData } = useQuery<ICityIndexFactoriesData>({
     queryKey: ["cityIndexFactoriesData"],
     async queryFn() {
       return await request(url, query);
@@ -102,9 +100,18 @@ export const Dashboard = () => {
         <li>Balance</li>
       </ul>
       {cityFactoriesData &&
-        dummyData.map((data: DataProp, index) => {
-          return <AllProjects key={data.id} data={data} />;
-        })}
+        cityFactoriesData.cityIndexFactories.map(
+          (cityIndexs: ICityIndexFactory) => {
+            return cityIndexs.cityIndexes.map((cityData, index) => (
+              <AllProjects
+                key={cityData.id}
+                {...dummyData[index]}
+                name={cityData.name}
+                nameTag={cityData.symbol}
+              />
+            ));
+          }
+        )}
     </div>
   );
 };

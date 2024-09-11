@@ -1,5 +1,5 @@
 // Define the types for token buys and sells
-export interface TokenBuy {
+export interface ITokenBuy {
   amount: string;
   blockNumber: number;
   buyer: string;
@@ -7,7 +7,7 @@ export interface TokenBuy {
   timestamp: number;
 }
 
-export interface TokenSell {
+export interface ITokenSell {
   timestamp: number;
   seller: string;
   id: string;
@@ -16,7 +16,7 @@ export interface TokenSell {
 }
 
 // Define the type for a city index
-export interface CityIndex {
+export interface ICityIndex {
   code: string;
   createdAtBlock: number;
   createdAtTimestamp: number;
@@ -25,16 +25,16 @@ export interface CityIndex {
   owner: string;
   squareFeet: string;
   symbol: string;
-  tokenBuys: TokenBuy[];
-  tokenSells: TokenSell[];
+  tokenBuys: ITokenBuy[];
+  tokenSells: ITokenSell[];
 }
 
 // Define the type for city index factories
-export interface CityIndexFactory {
-  cityIndexes: CityIndex[];
+export interface ICityIndexFactory {
+  cityIndexes: ICityIndex[];
 }
 
 // Define the main GraphQL query response type
-export interface CityIndexFactoriesData {
-  cityIndexFactories: CityIndexFactory[];
+export interface ICityIndexFactoriesData {
+  cityIndexFactories: ICityIndexFactory[];
 }
