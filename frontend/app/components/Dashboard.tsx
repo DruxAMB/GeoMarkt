@@ -47,12 +47,13 @@ export const Dashboard = () => {
     null
   );
 
-  const { data: cityFactoriesData } = useQuery<ICityIndexFactoriesData>({
-    queryKey: ["cityIndexFactoriesData"],
-    async queryFn() {
-      return await request(url, query);
-    },
-  });
+  const { data: cityFactoriesData, isLoading } =
+    useQuery<ICityIndexFactoriesData>({
+      queryKey: ["cityIndexFactoriesData"],
+      async queryFn() {
+        return await request(url, query);
+      },
+    });
 
   console.log(cityFactoriesData);
 
@@ -99,6 +100,7 @@ export const Dashboard = () => {
         <li>Listings/mon</li>
         <li>Balance</li>
       </ul>
+      {isLoading && <p>Loading...</p>}
       {cityFactoriesData &&
         cityFactoriesData.cityIndexFactories.map(
           (cityIndexs: ICityIndexFactory) => {

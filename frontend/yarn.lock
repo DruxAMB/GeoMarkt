@@ -950,6 +950,11 @@
     "@babel/helper-validator-identifier" "^7.24.7"
     to-fast-properties "^2.0.0"
 
+"@chainsafe/web3-plugin-chainlink@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@chainsafe/web3-plugin-chainlink/-/web3-plugin-chainlink-1.0.0.tgz#7b734cf69a8ac667c05343bdca08c833d458fcc6"
+  integrity sha512-5NqhuRL7ocpsUxWgnFSObFvKS/CsT7Kjkr5/+4J2PXJFOIX2UaaApR5mUph5ETtxV0ST+jfXjWEpPWWbzxO2pA==
+
 "@coinbase/onchainkit@^0.31.5":
   version "0.31.5"
   resolved "https://registry.yarnpkg.com/@coinbase/onchainkit/-/onchainkit-0.31.5.tgz#0b42d77e2da11ffe3aca684e72087cc0e75ebe81"
@@ -11677,7 +11682,7 @@ web3-validator@^2.0.3, web3-validator@^2.0.6:
 
 web3@^4.12.1:
   version "4.12.1"
-  resolved "https://registry.npmjs.org/web3/-/web3-4.12.1.tgz"
+  resolved "https://registry.yarnpkg.com/web3/-/web3-4.12.1.tgz#391215c7c82627c1a8cc329ded3366c8b55f5c3d"
   integrity sha512-zIFUPdgo2uG5Vbl7C4KrTv8dmWKN3sGnY/GundbiJzcaJZDxaCyu3a5HXAcgUM1VvvsVb1zaUQAFPceq05/q/Q==
   dependencies:
     web3-core "^4.5.1"
