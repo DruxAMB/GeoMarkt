@@ -7,6 +7,7 @@
 - **The Graph**: Used for indexing and querying blockchain data efficiently. The Subgraph allows you to fetch detailed cityindex data easily. You can view the subgraph [here](https://api.studio.thegraph.com/query/88691/geomarket/version/latest).
 - **OnchainKit**: Build your onchain apps with ready-to-use React components and Typescript utilities. The onchainkit gives you access to coinbase wallet and also allows for gasless fee with paymaster.
 - **Base**: The Game is deployed on the Base network, a Layer 2 scaling solution for Ethereum that offers lower transaction costs and faster confirmations. Base was chosen for its scalability, making it ideal for frequent transactions. You can view a sample transaction on Base [here](https://sepolia.basescan.org/tx/0x4012eed063272e6771d62a07162b3eaf35b6f11f130b5cf2163d28dd53f13660).
+- ORA Web3js plugings: used for generating customized avaters
 - Web3js plugins:
   Web3js zksync: for integrating paymaster
   Fleek: deployed to fleek
