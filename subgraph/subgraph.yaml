@@ -24,3 +24,28 @@ dataSources:
         - event: CityIndexCreated(indexed address,indexed address,string,string,string,uint256)
           handler: handleCityIndexCreated
       file: ./src/city-index-factory.ts
+templates:
+  - kind: ethereum
+    name: CityIndex
+    network: base-sepolia
+    source:
+      abi: CityIndex
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - CityIndex
+      abis:
+        - name: CityIndex
+          file: ./abis/CityIndex.json
+      eventHandlers:
+        - event: CodeUpdated(string,string)
+          handler: handleCodeUpdated
+        - event: PriceFeedRequested(uint64,bytes32)
+          handler: handlePriceFeedRequested
+        - event: TokensBought(address,uint256)
+          handler: handleTokensBought
+        - event: TokensSold(address,uint256)
+          handler: handleTokensSold
+      file: ./src/city-index.ts

@@ -1,12 +1,74 @@
-type CityIndexCreated @entity(immutable: true) {
-  id: Bytes!
-  owner: Bytes! # address
-  cityIndexAddress: Bytes! # address
-  name: String! # string
-  code: String! # string
-  symbol: String! # string
-  squareFeet: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+# Schema for CityIndexFactory and CityIndex contracts
+
+type CityIndexFactory @entity {
+  id: ID! # This will be the transaction hash or factory address
+  cityIndexes: [CityIndex!]! # A list of CityIndexes created by the factory
+}
+
+type CityIndex @entity {
+  id: ID! # This will be the address of the CityIndex contract
+  owner: Bytes! # Owner of the CityIndex (creator)
+  name: String! # Name of the CityIndex
+  code: String! # Code associated with the CityIndex
+  symbol: String! # Symbol of the CityIndex ERC20 token
+  squareFeet: BigInt! # Square feet corresponding to the total token supply
+  createdAtBlock: BigInt! # Block number when the CityIndex was created
+  createdAtTimestamp: BigInt! # Timestamp when the CityIndex was created
+  # Events associated with the CityIndex
+  codeUpdates: [CodeUpdate!]! # List of CodeUpdate events
+  priceFeedRequests: [PriceFeedRequest!]! # List of PriceFeedRequest events
+  tokenBuys: [TokenBuy!]! # List of TokenBuy events
+  tokenSells: [TokenSell!]! # List of TokenSell events
+}
+
+# Events for CityIndex
+
+type CodeUpdate @entity {
+  id: ID! # Unique ID (could be a combination of transaction hash and event index)
+  cityIndex: CityIndex! # The CityIndex contract associated with this event
+  oldCode: String! # Previous code
+  newCode: String! # New code
+  blockNumber: BigInt! # Block number when the event occurred
+  timestamp: BigInt! # Timestamp when the event occurred
+}
+
+type PriceFeedRequest @entity {
+  id: ID! # Unique ID (could be a combination of transaction hash and event index)
+  cityIndex: CityIndex! # The CityIndex contract associated with this event
+  subscriptionId: BigInt! # Subscription ID for the price feed
+  requestId: Bytes! # Request ID for the price feed
+  blockNumber: BigInt! # Block number when the event occurred
+  timestamp: BigInt! # Timestamp when the event occurred
+}
+
+type TokenBuy @entity {
+  id: ID! # Unique ID (could be a combination of transaction hash and event index)
+  cityIndex: CityIndex! # The CityIndex contract associated with this event
+  buyer: Bytes! # Address of the buyer
+  amount: BigInt! # Amount of tokens bought
+  blockNumber: BigInt! # Block number when the event occurred
+  timestamp: BigInt! # Timestamp when the event occurred
+}
+
+type TokenSell @entity {
+  id: ID! # Unique ID (could be a combination of transaction hash and event index)
+  cityIndex: CityIndex! # The CityIndex contract associated with this event
+  seller: Bytes! # Address of the seller
+  amount: BigInt! # Amount of tokens sold
+  blockNumber: BigInt! # Block number when the event occurred
+  timestamp: BigInt! # Timestamp when the event occurred
+}
+
+# Event emitted by CityIndexFactory when a new CityIndex is created
+
+type CityIndexCreated @entity {
+  id: ID! # Unique ID (could be a combination of transaction hash and event index)
+  owner: Bytes! # Address of the owner (creator of the CityIndex)
+  cityIndexAddress: Bytes! # Address of the newly created CityIndex contract
+  name: String! # Name of the CityIndex
+  code: String! # Code associated with the CityIndex
+  symbol: String! # Symbol of the CityIndex ERC20 token
+  squareFeet: BigInt! # Square feet corresponding to the total token supply
+  blockNumber: BigInt! # Block number when the event occurred
+  timestamp: BigInt! # Timestamp when the event occurred
 }
