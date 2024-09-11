@@ -18,7 +18,7 @@ export function OnchainWallet() {
   return (
     <div className="flex justify-end">
       <Wallet>
-        <ConnectWallet text="Onchain Login" className="bg-transparent p-2 ">
+        <ConnectWallet text="Onchain Login" className="bg-transparent p-3 border text-center">
           <Avatar className=" h-6 w-6" />
           <Name className="" />
 
