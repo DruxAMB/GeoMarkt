@@ -1,0 +1,48 @@
+query MyQuery @live {
+  cityIndexCreateds {
+    owner
+    squareFeet
+    symbol
+    timestamp
+    id
+    cityIndexAddress
+    blockNumber
+    code
+    name
+  }
+  cityIndexes {
+    name
+    owner
+    squareFeet
+    symbol
+    tokenSells {
+      amount
+      blockNumber
+      id
+      seller
+      timestamp
+    }
+    createdAtBlock
+    createdAtTimestamp
+    id
+    tokenBuys {
+      blockNumber
+      amount
+      buyer
+      id
+      timestamp
+    }
+  }
+
+  cityIndexFactories {
+    cityIndexes {
+      createdAtBlock
+      createdAtTimestamp
+      id
+      name
+      owner
+      squareFeet
+      symbol
+    }
+  }
+}

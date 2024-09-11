@@ -3,9 +3,10 @@ sources:
   - name: base-sepolia
     handler:
       graphql:
-        endpoint: https://gateway-arbitrum.network.thegraph.com/api/APIKEY/subgraphs/id/HUZDsRpEVP2AvzDCyzDHtdc64dyDxx8FQjzsmqSg4H3B
+        endpoint: https://api.studio.thegraph.com/query/88691/geomarket/version/latest
 documents:
   - "./queries/*.graphql"
 plugins:
   - pollingLive:
       defaultInterval: 10000
+      pauseOnBackground: true

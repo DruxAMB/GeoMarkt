@@ -1,9 +1,87 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { Chart } from "./Chart";
 import { AllProjects } from "./AllProjects";
 import dummyData, { DataProp } from "@/dummy-data";
+import { MyQueryDocument, MyQueryQuery, subscribe } from "../../.graphclient";
+import { ExecutionResult } from "graphql";
+import { gql, request } from "graphql-request";
+import { useQuery } from "@tanstack/react-query";
+const url =
+  "https://api.studio.thegraph.com/query/88691/geomarket/version/latest";
+const query = gql`
+  {
+    cityIndexFactories {
+      cityIndexes {
+        createdAtBlock
+        createdAtTimestamp
+        id
+        name
+        owner
+        squareFeet
+        symbol
+        tokenBuys {
+          amount
+          blockNumber
+          buyer
+          id
+          timestamp
+        }
+        tokenSells {
+          timestamp
+          seller
+          id
+          blockNumber
+          amount
+        }
+        code
+      }
+    }
+  }
+`;
+export const Dashboard = () => {
+  const [result, setResult] = useState<ExecutionResult<MyQueryQuery> | null>(
+    null
+  );
 
-export const Dashboard = () => {  
+  const { data: cityFactoriesData } = useQuery<{}>({
+    queryKey: ["cityIndexFactoriesData"],
+    async queryFn() {
+      return await request(url, query);
+    },
+  });
+
+  console.log(cityFactoriesData);
+
+  useEffect(() => {
+    let shouldContinue = true;
+
+    const fetchData = async () => {
+      try {
+        const fetchedResult = await subscribe(MyQueryDocument, {});
+        console.log(fetchedResult);
+
+        // if ("data" in fetchedResult) {
+        //   if (shouldContinue) {
+        //     setResult(fetchedResult);
+        //   }
+        // } else {
+        //   for await (const result of fetchedResult) {
+        //     if (!shouldContinue) break;
+        //     setResult(result);
+        //   }
+        // }
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      shouldContinue = false;
+    };
+  }, []);
 
   return (
     <div>
@@ -18,9 +96,10 @@ export const Dashboard = () => {
         <li>Listings/mon</li>
         <li>Balance</li>
       </ul>
-      {dummyData.map((data: DataProp) => {
-        return <AllProjects key={data.id} data={data} />;
-      })}
+      {cityFactoriesData &&
+        dummyData.map((data: DataProp) => {
+          return <AllProjects key={data.id} data={data} />;
+        })}
     </div>
   );
 };

@@ -1,0 +1,3 @@
+{
+  "80891f0df7377fd0293f2c7bb65b6a0f67d46cc6766340732b68d6d394eee68d": "query MyQuery @live {\n  cityIndexCreateds {\n    owner\n    squareFeet\n    symbol\n    timestamp\n    id\n    cityIndexAddress\n    blockNumber\n    code\n    name\n  }\n  cityIndexes {\n    name\n    owner\n    squareFeet\n    symbol\n    tokenSells {\n      amount\n      blockNumber\n      id\n      seller\n      timestamp\n    }\n    createdAtBlock\n    createdAtTimestamp\n    id\n    tokenBuys {\n      blockNumber\n      amount\n      buyer\n      id\n      timestamp\n    }\n  }\n  cityIndexFactories {\n    cityIndexes {\n      createdAtBlock\n      createdAtTimestamp\n      id\n      name\n      owner\n      squareFeet\n      symbol\n    }\n  }\n}"
+}
