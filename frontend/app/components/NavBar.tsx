@@ -96,7 +96,7 @@ export const NavBar = () => {
       <ThirdwebProvider>
         <div
           id="navbar"
-          className="page-transition flex z-50 items-center justify-between p-5 px-4 md:px-10 lg:px-32 text-center text-background fixed w-full backdrop-blur-md"
+          className="page-transition flex z-50 items-center justify-between p-5 px-4 md:px-10 lg:px-32 text-center text-white fixed w-full backdrop-blur-md"
         >
           {/* Logo on the left */}
           <Link href={"/"}>
@@ -122,7 +122,7 @@ export const NavBar = () => {
           </button>
 
           {/* Desktop Links - shown on large screens */}
-          <ul className="hidden lg:flex gap-5 ml-auto">
+          <ul className="hidden lg:flex gap-5 m-auto">
             {links.map((link, index) => (
               <li key={index} className="hover:underline font-light">
                 <Link href={link.url}>{link.name}</Link>
