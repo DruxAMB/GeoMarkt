@@ -7,12 +7,14 @@ import { MyQueryDocument, MyQueryQuery, subscribe } from "../../.graphclient";
 import { ExecutionResult } from "graphql";
 import { gql, request } from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
+import { CityIndexFactoriesData } from "@/types";
 const url =
   "https://api.studio.thegraph.com/query/88691/geomarket/version/latest";
 const query = gql`
   {
     cityIndexFactories {
       cityIndexes {
+        code
         createdAtBlock
         createdAtTimestamp
         id
@@ -34,17 +36,20 @@ const query = gql`
           blockNumber
           amount
         }
-        code
       }
     }
   }
 `;
+
+type cityIndexesType = {};
 export const Dashboard = () => {
   const [result, setResult] = useState<ExecutionResult<MyQueryQuery> | null>(
     null
   );
 
-  const { data: cityFactoriesData } = useQuery<{}>({
+  const { data: cityFactoriesData } = useQuery<{
+    cityIndexFactories: CityIndexFactoriesData;
+  }>({
     queryKey: ["cityIndexFactoriesData"],
     async queryFn() {
       return await request(url, query);
@@ -97,7 +102,7 @@ export const Dashboard = () => {
         <li>Balance</li>
       </ul>
       {cityFactoriesData &&
-        dummyData.map((data: DataProp) => {
+        dummyData.map((data: DataProp, index) => {
           return <AllProjects key={data.id} data={data} />;
         })}
     </div>
