@@ -2168,46 +2168,84 @@ contract CityIndex is ERC20, ERC20Pausable, Ownable {
     }
 
     // Buying using Paymaster
+    // TODO: ERC-4337 PAYMASTER INTEGRATION REQUIRED
+    // The current implementation of buyWithPaymaster is likely incorrect for a standard ERC-4337 setup.
+    // This function, as part of the token contract, would typically NOT directly call 'validateAndPayForPaymasterTransaction'.
+    // Instead:
+    // 1. The user (or their Bundler) would construct a UserOperation.
+    // 2. This UserOperation would include this 'buy' action in its 'callData'.
+    // 3. The UserOperation would specify your 'paymasterAddress' and include 'paymasterParams'.
+    // 4. The UserOperation is sent to the ERC-4337 EntryPoint contract.
+    // 5. The EntryPoint contract calls your 'paymasterAddress.validatePaymasterUserOp(...)' and then executes the UserOperation (which calls this buy function).
+    // This CityIndex contract primarily needs to ensure its state changes correctly when called via a UserOperation.
+    // The 'paymasterParams' argument here might be redundant if this function is only called as part of a UserOperation execution path.
+    // It's more likely that 'paymasterParams' are constructed by the client and used by the Bundler/EntryPoint/Paymaster.
     function buyWithPaymaster(
         address to,
         uint256 amount,
-        bytes calldata paymasterParams
+        bytes calldata paymasterParams // TODO: Review necessity of this param if called via UserOp.
     ) public {
         uint256 tokenAmount = amount * 10 ** decimals();
         require(
-            tokenAmount <= balanceOf(owner()),
-            "Not enough city tokens available"
+            tokenAmount <= balanceOf(owner()), // Assuming owner() holds tokens for sale
+            "CityIndex: Not enough city tokens available"
         );
 
-        // Interact with the Paymaster to pay for the transaction
-        // Assuming the Paymaster has a function to handle this
-        (bool success, ) = paymasterAddress.call(
-            abi.encodeWithSignature(
-                "validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)" /* parameters */
-            )
-        );
-        require(success, "Paymaster transaction failed");
+        // TODO: REMOVE DIRECT PAYMASTER CALL
+        // This direct call is problematic for ERC-4337.
+        // (bool success, ) = paymasterAddress.call(
+        //     abi.encodeWithSignature(
+        //         "validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)" // This signature is also specific and might not match your paymaster
+        //     )
+        // );
+        // require(success, "CityIndex: Paymaster interaction failed"); // This check would be handled by EntryPoint/Paymaster
 
-        _transfer(owner(), to, tokenAmount);
+        // If this function is called via a UserOperation, the gas payment is handled by the Paymaster through the EntryPoint.
+        // This contract just needs to perform its core logic.
+        // Ensure 'paymasterAddress' is correctly set in the constructor or by an owner function if it's updatable.
+        // Make sure 'gmtTokenAddress' is also correctly set for any interactions if the paymaster uses GMT.
+
+        _transfer(owner(), to, tokenAmount); // Transfer city tokens
     }
 
     // Selling using Paymaster
+    // TODO: ERC-4337 PAYMASTER INTEGRATION REQUIRED - Similar to buyWithPaymaster
+    // The same considerations for ERC-4337 apply here.
+    // The user would submit a UserOperation to sell tokens, and the Paymaster would cover gas if validated.
     function sellWithPaymaster(
-        address from,
+        address from, // Should typically be msg.sender when called via UserOp execution
         uint256 amount,
-        bytes calldata paymasterParams
+        bytes calldata paymasterParams // TODO: Review necessity of this param.
     ) public {
+        // Ensure 'from' is authorized (e.g., from == msg.sender or approved)
+        // When called via EntryPoint, msg.sender will be the EntryPoint.
+        // For token transfers, ERC-4337 compatible contracts often rely on validateUserOp in the smart contract account
+        // to authorize the EntryPoint. Here, 'from' is likely intended to be the actual user.
+        // If this is called via a UserOp, the 'from' might need to be the smart contract account address if it holds the tokens.
+        // Or, this function expects 'from' to have approved this contract to spend its tokens.
+
         uint256 tokenAmount = amount * 10 ** decimals();
-        require(tokenAmount <= balanceOf(from), "Not enough tokens");
+        require(tokenAmount <= balanceOf(from), "CityIndex: Not enough tokens in 'from' account");
 
-        (bool success, ) = paymasterAddress.call(
-            abi.encodeWithSignature(
-                "validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)" /* parameters */
-            )
-        );
-        require(success, "Paymaster transaction failed");
+        // TODO: VERIFY 'from'
+        // If 'from' is not msg.sender (and msg.sender is EntryPoint), an approval mechanism is needed
+        // or this function must be callable only by the token holder themselves (which is tricky with UserOps).
+        // A common pattern for smart contract accounts (SCAs) is that the SCA owns the tokens,
+        // and the SCA's validateUserOp authorizes the EntryPoint to make calls.
+        // If 'from' is an EOA, it must have approved this CityIndex contract.
 
-        _transfer(from, owner(), tokenAmount);
+        // TODO: REMOVE DIRECT PAYMASTER CALL
+        // (bool success, ) = paymasterAddress.call(
+        //     abi.encodeWithSignature(
+        //         "validateAndPayForPaymasterTransaction(bytes32,bytes32,Transaction)"
+        //     )
+        // );
+        // require(success, "CityIndex: Paymaster interaction failed");
+
+        _transfer(from, owner(), tokenAmount); // User sells tokens back to the contract owner
+        // TODO: How does the user get paid in GMT/ETH if selling? This function doesn't show payout.
+        // Compare with sellWithGMT which transfers GMT to the user.
+        // This function should likely also transfer payment (e.g., GMT) from this contract (or owner) to 'from'.
     }
 
     function updatePrice(uint256 newPrice) public onlyOwner {

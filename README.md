@@ -118,15 +118,68 @@ A decentralized platform that allows users to trade city-based tokens. These tok
 
 > ## geomarkt-mvp-contract-addresses
 
-ALL Contracts were deployed on Base Sepoila
-| Contract | Address |
-|--------------------|-----------------|
-| GeoMarktTrading | 0x79EbcC60E31e9DA03920bF80440C50Ceefa6ef0e |
-| GeoMarktToken (GMT)| 0x87A7346C49CF630C5D63Bc02d056eA4988c67f01 |
-| CityIndex (EPE) | 0x3Ef64494ffA42114FE9Eda91817aEBE5f54F1a3b |  
-| CityIndexFactory | 0x3b1B708D2a9B4f214F71Ad555Dd4e0d601327f18 |
-|EPE CITY TOKEN(EPE) | 0xc77c2b7A3bAe71eb3cFC1700F675b34146A9A11C | N0te that EPE has 10 billion tokens because EPE is 10 billion sq feets
-|PayMaster | 0xBd35aE6683Ce69239F79bc857b1C3D555f3C21Db | Note: We support GMT token for paymaster now.
+ALL Contracts were deployed on Base Sepoila.
+**Note:** The contract system has been refactored. Please see "Deployment and Configuration Notes" below for updated deployment procedures and requirements.
+
+| Contract           | Address                                      | Notes                                                                  |
+| ------------------ | -------------------------------------------- | ---------------------------------------------------------------------- |
+| GeoMarktTrading    | 0x79EbcC60E31e9DA03920bF80440C50Ceefa6ef0e | (Verify configuration with latest GMT, Paymaster, etc.)                |
+| GeoMarktToken (GMT)| 0x87A7346C49CF630C5D63Bc02d056eA4988c67f01 | (This is your core GMT token)                                          |
+| PayMaster          | 0xBd35aE6683Ce69239F79bc857b1C3D555f3C21Db | (Ensure this is your ERC-4337 compatible Paymaster for Base Sepolia) |
+| CityIndex (EPE)    | (Now deployed via CityIndexFactory)          | Example instance.                                                      |
+| CityIndexFactory   | `0x...YourNewFactoryAddress`                 | (Must be re-deployed with new constructor arguments)                   |
+| AnalyticsAPICaller | `0x...YourNewAnalyticsAPICallerAddress`      | (Must be re-deployed with correct Chainlink config for Base Sepolia) |
+
+## Deployment and Configuration Notes
+
+The smart contract system has been updated. Key changes and deployment considerations are noted below:
+
+### 1. `AnalyticsAPICaller.sol` (`src/AnalyticsAPICaller.sol`)
+
+*   **Deployment:** This contract must be deployed first.
+*   **Constructor Arguments:**
+    *   `_router (address)`: The Chainlink Functions Router address **for the target network (e.g., Base Sepolia)**. *The previous hardcoded value was for Ethereum Mainnet and will not work on Base Sepolia.*
+    *   `_donID (bytes32)`: The Chainlink Functions DON ID **for the target network (e.g., Base Sepolia)**. *The previous hardcoded value was for Ethereum Mainnet.*
+*   **Ownership:** The deployer becomes the owner. This owner is responsible for funding the Chainlink subscription and managing it.
+*   **Permissions:** The `sendRequest` function is `onlyOwner`. If this `AnalyticsAPICaller` instance is intended to be shared by multiple `CityIndex` contracts (which is implied by `CityIndexFactory` taking its address), you must ensure that the entity calling `CityIndex.priceFeed()` (which triggers `AnalyticsAPICaller.sendRequest()`) has the necessary permissions. This might involve:
+    *   Transferring ownership of the `AnalyticsAPICaller` to the `CityIndexFactory` or another central contract.
+    *   Using a more complex ownership/permission scheme.
+    *   Alternatively, consider deploying a new `AnalyticsAPICaller` instance for each `CityIndex` (this would require `CityIndexFactory` to deploy them).
+
+### 2. `CityIndexFactory.sol` (`src/CityIndexFactory.sol`)
+
+*   **Deployment:** Deploy this contract after the `AnalyticsAPICaller` and your `GMTToken`.
+*   **Constructor Arguments:**
+    *   `_analyticsApiCallerAddress (address)`: The address of your deployed `AnalyticsAPICaller` contract.
+    *   `_gmtTokenAddress (address)`: The address of your GMT (GeoMarkt Token) ERC20 contract. This is now required by the factory to pass to new `CityIndex` instances.
+    *   `_paymasterAddress (address)`: The address of your ERC-4337 Paymaster contract. This is also now required by the factory. *(Note: Full ERC-4337 integration in `CityIndex.sol` for `buyWithPaymaster`/`sellWithPaymaster` requires further implementation as per TODOs in that contract).*
+*   **`createCityIndex` Function:**
+    *   This function now requires an additional `_creationFee (uint256)` argument.
+    *   It is `payable`. The `msg.value` sent when calling this function must be greater than the `_creationFee`. This `msg.value` is forwarded to the `CityIndex` constructor.
+
+### 3. `CityIndex.sol` (`src/CityIndex.sol`)
+
+*   **Deployment:** Deployed by `CityIndexFactory`.
+*   **Paymaster Functionality:** The `buyWithPaymaster` and `sellWithPaymaster` functions currently have placeholder logic. Full ERC-4337 integration is needed. Refer to the `TODO` comments within the contract. You will need a deployed and operational ERC-4337 EntryPoint contract and your Paymaster contract on Base Sepolia.
+*   **Chainlink Integration:** Relies on the `AnalyticsAPICaller` address passed by the factory. Ensure this is correctly configured and permissions are handled as noted above.
+
+### Suggested Deployment Order & Example Addresses (Base Sepolia)
+
+Update this section with your actual deployed addresses on Base Sepolia once available.
+
+| Contract                | Placeholder Address / Example                | Notes                                                                                                |
+| ----------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Dependencies**        |                                              |                                                                                                      |
+| GMT Token (Your ERC20)  | `0x87A7346C49CF630C5D63Bc02d056eA4988c67f01` | (Confirm this is the correct GMT for Base Sepolia)                                     |
+| Paymaster (Your ERC-4337) | `0xBd35aE6683Ce69239F79bc857b1C3D555f3C21Db` | (Ensure this is ERC-4337 compatible and configured for Base Sepolia with GMT) |
+| EntryPoint (ERC-4337)   | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | (Official Base Sepolia EntryPoint - Verify)                                          |
+| Chainlink Router        | `0x... (Base Sepolia Chainlink Router)`        | (Obtain from Chainlink Docs for Base Sepolia Functions)                                            |
+| Chainlink DON ID        | `bytes32(...Base Sepolia DON ID...)`         | (Obtain from Chainlink Docs for Base Sepolia Functions)                                            |
+| **Core Contracts**      |                                              |                                                                                                      |
+| AnalyticsAPICaller    | `0x... (Your Deployed AnalyticsAPICaller)`   | Deployed with correct Router & DON ID for Base Sepolia.                                              |
+| CityIndexFactory        | `0x... (Your Deployed CityIndexFactory)`     | Deployed with AnalyticsAPICaller, GMT, and Paymaster addresses.                                      |
+| CityIndex (example EPE) | Deployed via `CityIndexFactory`              |                                                                                                      |
+| GeoMarktTrading         | `0x79EbcC60E31e9DA03920bF80440C50Ceefa6ef0e` | (Verify config with new GMT, WETH for Base Sepolia, etc.)                                  |
 
 #
 
